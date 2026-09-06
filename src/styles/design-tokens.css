@@ -1,0 +1,44 @@
+:root {
+  /* Access by KAI Brand Palette */
+  --kai-primary: #1a56db;
+  --kai-primary-hover: #1442a8;
+  --kai-primary-soft: #eff6ff;
+  --kai-primary-border: #bfdbfe;
+
+  /* Header Gradients */
+  --kai-header-dark: #221673;
+  --kai-header-mid: #38279d;
+  --kai-header-light: #5237be;
+
+  /* Brand Accents */
+  --kai-orange: #ff7a00;
+  --kai-orange-soft: #fff7ed;
+  --kai-orange-border: #fed7aa;
+  --kai-gold: #d97706;
+  --kai-gold-bg: #fef3c7;
+  --kai-gold-text: #92400e;
+
+  /* Surfaces & Backgrounds */
+  --kai-surface: #ffffff;
+  --kai-bg: #f8fafc;
+  --kai-card-bg: #ffffff;
+  --kai-border: #f1f5f9;
+  --kai-border-subtle: #e2e8f0;
+
+  /* Typography */
+  --kai-text-primary: #0f172a;
+  --kai-text-secondary: #475569;
+  --kai-text-muted: #94a3b8;
+  --kai-text-white: #ffffff;
+
+  /* Radii & Elevation */
+  --kai-radius-sm: 8px;
+  --kai-radius-md: 14px;
+  --kai-radius-lg: 20px;
+  --kai-radius-xl: 24px;
+  --kai-radius-full: 9999px;
+
+  /* Shadows */
+  --kai-shadow-card: 0 10px 25px -5px rgba(34, 22, 115, 0.07), 0 8px 10px -6px rgba(34, 22, 115, 0.04);
+  --kai-shadow-floating: 0 20px 30px -10px rgba(26, 86, 219, 0.25);
+}
