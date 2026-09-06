@@ -234,28 +234,6 @@ export const HomePage = () => {
             </div>
             <span className="text-[11px] font-medium text-slate-700 text-center">Whoosh</span>
           </button>
-
-          {/* ★★★ THE NEW "EVENT" SERVICE BUTTON (PRIMARY FUNCTIONAL ENTRYPOINT) ★★★ */}
-          <button
-            onClick={() => setCurrentStep('catalog')}
-            className="flex flex-col items-center gap-1.5 shrink-0 tap-active w-14 group relative"
-          >
-            {/* Glowing animated halo */}
-            <div className="absolute -top-1 -right-0.5 z-10">
-              <span className="relative flex h-3 w-3">
-                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-amber-400 opacity-75"></span>
-                <span className="relative inline-flex rounded-full h-3 w-3 bg-amber-500 border border-white"></span>
-              </span>
-            </div>
-
-            <div className="w-13 h-13 rounded-full bg-gradient-to-b from-indigo-500 via-indigo-600 to-purple-700 shadow-md shadow-indigo-500/30 flex items-center justify-center text-white ring-2 ring-indigo-300 ring-offset-2 transition-transform group-hover:scale-105">
-              <Ticket size={24} strokeWidth={2.3} className="text-amber-300" />
-            </div>
-            <div className="flex items-center gap-0.5">
-              <span className="text-[11px] font-bold text-kai-blue text-center">Event</span>
-              <Sparkles size={10} className="text-amber-500 fill-amber-400" />
-            </div>
-          </button>
         </div>
       </div>
 
@@ -304,8 +282,66 @@ export const HomePage = () => {
         </div>
       </div>
 
-      {/* BANNER 1: LIVE TRACKING BANNER (PURPLE-PINK GRADIENT WITH 3D TRAIN) */}
+      {/* BANNER 0: KAI ACCESS EVENT & FESTIVAL HERO PROMO BANNER */}
       <div className="px-4 mt-6">
+        <div
+          onClick={() => setCurrentStep('catalog')}
+          className="relative rounded-2xl overflow-hidden bg-gradient-to-r from-[#1B1464] via-[#2E2088] to-[#FF6B00] p-4 text-white shadow-lg cursor-pointer tap-active border border-indigo-400/20 group"
+        >
+          {/* Subtle Ambient Glow */}
+          <div className="absolute -right-6 -bottom-6 w-36 h-36 rounded-full bg-orange-500/25 blur-2xl pointer-events-none"></div>
+
+          <div className="relative z-10 max-w-[215px]">
+            <div className="flex items-center gap-1.5 mb-1">
+              <span className="font-extrabold text-base tracking-tight flex items-center gap-1">
+                <span>KAI Access Event</span>
+                <Sparkles size={14} className="text-amber-300 fill-amber-300" />
+              </span>
+              <span className="bg-amber-400 text-slate-900 text-[10px] font-black px-2 py-0.5 rounded-full shadow-sm uppercase tracking-wider">
+                Festival
+              </span>
+            </div>
+            <p className="text-xs text-white/90 leading-snug mb-3.5">
+              Beli tiket konser musik, festival jazz & pameran terintegrasi dengan tiket kereta api.
+            </p>
+            <button
+              onClick={(e) => {
+                e.stopPropagation();
+                setCurrentStep('catalog');
+              }}
+              className="bg-white text-[#1B1464] font-black text-xs px-4 py-2 rounded-full shadow-md hover:bg-slate-50 tap-active transition-all flex items-center gap-1.5 group-hover:scale-105"
+            >
+              <Ticket size={14} className="text-[#FF6B00]" />
+              <span>Beli Tiket Event</span>
+            </button>
+          </div>
+
+          {/* Right 3D Visual Passes Graphic */}
+          <div className="absolute -bottom-1 -right-2 w-36 h-28 pointer-events-none flex items-end justify-center">
+            <div className="relative w-full h-full flex items-center justify-end pr-3">
+              <div className="w-20 h-24 bg-gradient-to-br from-amber-400 via-orange-500 to-rose-600 rounded-2xl shadow-2xl transform rotate-12 border-2 border-white/40 p-2 flex flex-col justify-between text-white">
+                <div className="flex items-center justify-between">
+                  <Ticket size={14} className="text-white" />
+                  <span className="text-[8px] font-black tracking-widest bg-white/20 px-1 py-0.5 rounded">VIP</span>
+                </div>
+                <div className="text-center">
+                  <div className="text-[9px] font-black tracking-tight leading-tight">FESTIVAL</div>
+                  <div className="text-[7px] opacity-80">2026 PASS</div>
+                </div>
+                <div className="w-full h-1 bg-white/40 rounded-full"></div>
+              </div>
+              <div className="w-18 h-20 bg-gradient-to-br from-indigo-700 to-blue-500 rounded-xl shadow-xl transform -rotate-6 -ml-8 border border-white/30 p-1.5 flex flex-col justify-between text-white">
+                <span className="text-[7px] font-bold text-cyan-200">KAI TICKET</span>
+                <span className="text-[8px] font-extrabold text-center">STAGE PASS</span>
+                <div className="text-[6px] text-center opacity-70">SEAT A12</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* BANNER 1: LIVE TRACKING BANNER (PURPLE-PINK GRADIENT WITH 3D TRAIN) */}
+      <div className="px-4 mt-3">
         <div className="relative rounded-2xl overflow-hidden bg-gradient-to-r from-[#291e7e] via-[#632ca6] to-[#eb3989] p-4 text-white shadow-md">
           <div className="relative z-10 max-w-[210px]">
             <div className="flex items-center gap-1.5 mb-1">
