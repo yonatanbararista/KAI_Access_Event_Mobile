@@ -113,8 +113,12 @@ export const BookingProvider = ({ children }) => {
     const taxableAmount = basePrice + totalAddOnPrice;
     const tax = Math.round(taxableAmount * 0.11); // 11% Tax
     
-    // Per requirement 13: IDR 7,000 per ticket
-    const adminFee = 7000 * ticketQuantity;
+    // Admin fee calculation:
+    // IDR 7,000 if ticket price <= IDR 110,000, or 3% of ticket price if > IDR 110,000
+    const ticketPrice = selectedTicket ? selectedTicket.price : 0;
+    const isOver110k = ticketPrice > 110000;
+    const adminFeePerTicket = isOver110k ? Math.round(ticketPrice * 0.03) : 7000;
+    const adminFee = adminFeePerTicket * ticketQuantity;
 
     const totalPrice = basePrice + seatPrice + totalAddOnPrice + tax + adminFee;
 
@@ -126,6 +130,8 @@ export const BookingProvider = ({ children }) => {
       trainPrice,
       tax,
       adminFee,
+      adminFeePerTicket,
+      isOver110k,
       totalPrice
     };
   }, [selectedTicket, ticketQuantity, selectedAddOns, selectedTrain]);

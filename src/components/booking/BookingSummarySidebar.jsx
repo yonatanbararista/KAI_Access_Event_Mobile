@@ -82,11 +82,13 @@ export const BookingSummarySidebar = ({ nextLabel = "Lanjutkan", onNext, isNextD
             <span className="font-medium">{formatIDR(calculations.tax)}</span>
           </div>
 
-          {/* Admin Fee (strictly IDR 7,000 * quantity per requirement 13) */}
+          {/* Admin Fee (IDR 7,000 if <= IDR 110,000, or 3% if > IDR 110,000) */}
           <div className="flex items-center justify-between py-1 text-slate-600">
             <div>
               <span>Biaya Layanan Admin</span>
-              <span className="text-[10px] text-slate-400 ml-1">({ticketQuantity}x @ IDR 7.000)</span>
+              <span className="text-[10px] text-slate-400 ml-1">
+                ({ticketQuantity}x @ {calculations.isOver110k ? `3% (${formatIDR(calculations.adminFeePerTicket)})` : 'IDR 7.000'})
+              </span>
             </div>
             <span className="font-medium">{formatIDR(calculations.adminFee)}</span>
           </div>

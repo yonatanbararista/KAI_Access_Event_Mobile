@@ -148,12 +148,14 @@ export const CheckoutPage = () => {
               <span className="font-semibold">{formatIDR(calculations.tax)}</span>
             </div>
 
-            {/* Admin Fee: strictly IDR 7,000 * ticketQuantity */}
+            {/* Admin Fee: IDR 7,000 if <= IDR 110,000, or 3% if > IDR 110,000 */}
             <div className="flex items-center justify-between text-slate-700">
               <div>
                 <span className="font-medium">Biaya Administrasi & Layanan</span>
                 <div className="text-[10px] text-kai-blue font-bold">
-                  {ticketQuantity} tiket × IDR 7.000 / tiket
+                  {calculations.isOver110k
+                    ? `${ticketQuantity} tiket × 3% (${formatIDR(calculations.adminFeePerTicket)} / tiket)`
+                    : `${ticketQuantity} tiket × IDR 7.000 / tiket`}
                 </div>
               </div>
               <span className="font-semibold">{formatIDR(calculations.adminFee)}</span>
