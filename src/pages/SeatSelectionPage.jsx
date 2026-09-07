@@ -6,8 +6,15 @@ import { useBooking } from '../context/BookingContext';
 import { AlertCircle } from 'lucide-react';
 
 export const SeatSelectionPage = () => {
-  const { selectedEvent, ticketQuantity, selectedSeats, setCurrentStep } = useBooking();
+  const { selectedEvent, ticketQuantity, selectedSeats, setCurrentStep, isStandingTicket } = useBooking();
   const [errorMsg, setErrorMsg] = useState('');
+
+  // Auto-skip if standing ticket
+  React.useEffect(() => {
+    if (isStandingTicket) {
+      setCurrentStep('addons');
+    }
+  }, [isStandingTicket, setCurrentStep]);
 
   const handleNext = () => {
     if (selectedSeats.length !== ticketQuantity) {

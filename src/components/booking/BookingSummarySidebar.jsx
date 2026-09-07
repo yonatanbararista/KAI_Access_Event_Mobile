@@ -7,6 +7,7 @@ export const BookingSummarySidebar = ({ nextLabel = "Lanjutkan", onNext, isNextD
   const {
     selectedEvent,
     selectedTicket,
+    isStandingTicket,
     ticketQuantity,
     selectedSeats,
     selectedAddOns,
@@ -50,7 +51,7 @@ export const BookingSummarySidebar = ({ nextLabel = "Lanjutkan", onNext, isNextD
           )}
 
           {/* Selected Seats info */}
-          {selectedSeats && selectedSeats.length > 0 && (
+          {!isStandingTicket && selectedSeats && selectedSeats.length > 0 && (
             <div className="flex items-center justify-between py-1 text-slate-600">
               <span>Kursi Terpilih ({selectedSeats.join(', ')})</span>
               <span className="text-emerald-600 font-medium">Termasuk</span>

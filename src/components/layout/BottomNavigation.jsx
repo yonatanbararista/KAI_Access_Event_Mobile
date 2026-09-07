@@ -52,7 +52,7 @@ export const BottomNavigation = () => {
       label: 'Account',
       icon: User,
       action: () => {
-        showToast('Akun terhubung: Yonatan Kristian (Premium Member)');
+        showToast('Akun terhubung: Angelika Fendys (Premium Member)');
       }
     }
   ];

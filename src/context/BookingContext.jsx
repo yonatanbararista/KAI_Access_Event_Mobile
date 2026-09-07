@@ -21,6 +21,7 @@ export const BookingProvider = ({ children }) => {
       idNumber: '',
       phone: '',
       email: '',
+      address: '',
     }
   ]);
 
@@ -36,6 +37,7 @@ export const BookingProvider = ({ children }) => {
             idNumber: '',
             phone: '',
             email: '',
+            address: '',
           });
         }
       } else if (ticketQuantity < prev.length) {
@@ -56,14 +58,30 @@ export const BookingProvider = ({ children }) => {
           idNumber: USER_PROFILE.idNumber,
           phone: USER_PROFILE.phone,
           email: USER_PROFILE.email,
+          address: USER_PROFILE.address,
         };
         return next;
       });
     }
   }, [useProfileData]);
 
+  // Standing/Festival Ticket check
+  const isStandingTicket = useMemo(() => {
+    const ticketName = selectedTicket?.name?.toLowerCase() || '';
+    return ticketName.includes('standing') ||
+           ticketName.includes('festival') ||
+           selectedTicket?.id === 'tkt-fest';
+  }, [selectedTicket]);
+
   // Seat Selection State
   const [selectedSeats, setSelectedSeats] = useState(['A3']);
+
+  // Clear seats if standing/festival ticket selected
+  useEffect(() => {
+    if (isStandingTicket) {
+      setSelectedSeats([]);
+    }
+  }, [isStandingTicket]);
 
   // Adjust selected seats when ticketQuantity changes
   useEffect(() => {
@@ -195,7 +213,7 @@ export const BookingProvider = ({ children }) => {
       passengerName: passengers[0]?.name || USER_PROFILE.name,
       allPassengers: passengers,
       ticketType: selectedTicket?.name || 'Reguler',
-      seatNumber: selectedSeats.length > 0 ? selectedSeats.join(', ') : 'Free Standing',
+      seatNumber: isStandingTicket ? 'Festival (Standing)' : (selectedSeats.length > 0 ? selectedSeats.join(', ') : 'Bebas Pilih Kursi'),
       quantity: ticketQuantity,
       totalPrice: calculations.totalPrice,
       selectedAddOns: selectedAddOns.map(id => MOCK_ADDONS.find(a => a.id === id)?.name).filter(Boolean),
@@ -219,7 +237,7 @@ export const BookingProvider = ({ children }) => {
     setSelectedAddOns([]);
     setSelectedTrain(null);
     setUseProfileData(false);
-    setPassengers([{ name: '', idType: 'KTP', idNumber: '', phone: '', email: '' }]);
+    setPassengers([{ name: '', idType: 'KTP', idNumber: '', phone: '', email: '', address: '' }]);
     setCurrentStep('catalog');
   };
 
@@ -235,6 +253,8 @@ export const BookingProvider = ({ children }) => {
         selectEvent,
         selectedTicket,
         setSelectedTicket,
+        isStandingTicket,
+        USER_PROFILE,
         ticketQuantity,
         setTicketQuantity,
         useProfileData,

@@ -82,10 +82,6 @@ export const TicketSelectionPage = () => {
                       </div>
                     </div>
                   </div>
-
-                  <span className="text-[10px] font-semibold bg-emerald-50 text-emerald-700 px-2 py-0.5 rounded-full border border-emerald-200">
-                    Sisa {tier.quota} tiket
-                  </span>
                 </div>
 
                 {/* Tier Perks */}

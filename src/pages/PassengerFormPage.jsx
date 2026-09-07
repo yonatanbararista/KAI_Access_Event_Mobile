@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { User, Mail, Phone, CreditCard, ShieldCheck, CheckSquare, Square, AlertCircle } from 'lucide-react';
+import { User, Mail, Phone, CreditCard, ShieldCheck, CheckSquare, Square, AlertCircle, MapPin } from 'lucide-react';
 import { Navbar } from '../components/layout/Navbar';
 import { BookingSummarySidebar } from '../components/booking/BookingSummarySidebar';
 import { useBooking } from '../context/BookingContext';
@@ -7,19 +7,16 @@ import { useBooking } from '../context/BookingContext';
 export const PassengerFormPage = () => {
   const {
     selectedEvent,
+    selectedTicket,
+    isStandingTicket,
     ticketQuantity,
     useProfileData,
     setUseProfileData,
     passengers,
     updatePassenger,
-    setCurrentStep
+    setCurrentStep,
+    USER_PROFILE
   } = useBooking();
-
-  const [bookerInfo, setBookerInfo] = useState({
-    name: useProfileData ? passengers[0]?.name : '',
-    email: useProfileData ? passengers[0]?.email : '',
-    phone: useProfileData ? passengers[0]?.phone : '',
-  });
 
   const [errorMessage, setErrorMessage] = useState('');
 
@@ -31,7 +28,11 @@ export const PassengerFormPage = () => {
       return;
     }
     setErrorMessage('');
-    setCurrentStep('seats');
+    if (isStandingTicket) {
+      setCurrentStep('addons');
+    } else {
+      setCurrentStep('seats');
+    }
   };
 
   return (
@@ -40,7 +41,7 @@ export const PassengerFormPage = () => {
         title="Data Pemesan & Penumpang"
         subtitle={selectedEvent?.title}
         stepNumber={2}
-        totalSteps={6}
+        totalSteps={isStandingTicket ? 5 : 6}
         showBack={true}
         onBack={() => setCurrentStep('tickets')}
       />
@@ -60,7 +61,7 @@ export const PassengerFormPage = () => {
                 Gunakan Data Profil Saya
               </div>
               <div className="text-[11px] text-slate-500">
-                Yonatan Kristian (KTP • 3174...0003)
+                {USER_PROFILE?.name || 'Angelika Fendys'} (KTP • 3372...0002 • Jebres, Surakarta)
               </div>
             </div>
           </div>
@@ -96,7 +97,7 @@ export const PassengerFormPage = () => {
               <User size={15} className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" />
               <input
                 type="text"
-                placeholder="cth: Yonatan Kristian"
+                placeholder="cth: Angelika Fendys"
                 value={passengers[0]?.name || ''}
                 onChange={(e) => updatePassenger(0, 'name', e.target.value)}
                 className="w-full pl-9 pr-3 py-2 text-xs rounded-xl border border-slate-200 bg-slate-50/50 focus:bg-white focus:outline-none focus:ring-2 focus:ring-kai-blue/30 focus:border-kai-blue"
@@ -113,7 +114,7 @@ export const PassengerFormPage = () => {
                 <Mail size={15} className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" />
                 <input
                   type="email"
-                  placeholder="name@email.com"
+                  placeholder="angelikafsh@gmail.com"
                   value={passengers[0]?.email || ''}
                   onChange={(e) => updatePassenger(0, 'email', e.target.value)}
                   className="w-full pl-9 pr-2 py-2 text-xs rounded-xl border border-slate-200 bg-slate-50/50 focus:bg-white focus:outline-none focus:ring-2 focus:ring-kai-blue/30 focus:border-kai-blue"
@@ -129,12 +130,29 @@ export const PassengerFormPage = () => {
                 <Phone size={15} className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" />
                 <input
                   type="tel"
-                  placeholder="0812xxxx"
+                  placeholder="089680947898"
                   value={passengers[0]?.phone || ''}
                   onChange={(e) => updatePassenger(0, 'phone', e.target.value)}
                   className="w-full pl-9 pr-2 py-2 text-xs rounded-xl border border-slate-200 bg-slate-50/50 focus:bg-white focus:outline-none focus:ring-2 focus:ring-kai-blue/30 focus:border-kai-blue"
                 />
               </div>
+            </div>
+          </div>
+
+          {/* New Address Field */}
+          <div>
+            <label className="text-[11px] font-bold text-slate-700 block mb-1">
+              Alamat Lengkap Pemesan *
+            </label>
+            <div className="relative">
+              <MapPin size={15} className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" />
+              <input
+                type="text"
+                placeholder="cth: Jebres, Surakarta"
+                value={passengers[0]?.address || ''}
+                onChange={(e) => updatePassenger(0, 'address', e.target.value)}
+                className="w-full pl-9 pr-3 py-2 text-xs rounded-xl border border-slate-200 bg-slate-50/50 focus:bg-white focus:outline-none focus:ring-2 focus:ring-kai-blue/30 focus:border-kai-blue"
+              />
             </div>
           </div>
         </div>
@@ -223,7 +241,7 @@ export const PassengerFormPage = () => {
 
       {/* Sticky Bottom Summary */}
       <BookingSummarySidebar
-        nextLabel="Pilih Kursi"
+        nextLabel={isStandingTicket ? "Lanjut ke Layanan Tambahan" : "Pilih Kursi"}
         onNext={handleNext}
       />
     </div>

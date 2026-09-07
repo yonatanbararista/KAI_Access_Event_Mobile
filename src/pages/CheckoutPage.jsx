@@ -21,6 +21,7 @@ export const CheckoutPage = () => {
   const {
     selectedEvent,
     selectedTicket,
+    isStandingTicket,
     ticketQuantity,
     passengers,
     selectedSeats,
@@ -43,7 +44,7 @@ export const CheckoutPage = () => {
     setTimeout(() => {
       setIsProcessing(false);
       completeCheckout(paymentMethod === 'kaipay' ? 'KAIPay' : paymentMethod === 'va' ? `VA ${selectedBank}` : 'QRIS');
-    }, 1200);
+    }, 1500);
   };
 
   return (
@@ -51,8 +52,8 @@ export const CheckoutPage = () => {
       <Navbar
         title="Ringkasan Pembayaran"
         subtitle="Konfirmasi & Pembayaran Tiket"
-        stepNumber={5}
-        totalSteps={6}
+        stepNumber={isStandingTicket ? 4 : 5}
+        totalSteps={isStandingTicket ? 5 : 6}
         showBack={true}
         onBack={() => setCurrentStep('addons')}
       />
@@ -102,15 +103,17 @@ export const CheckoutPage = () => {
             </div>
 
             {/* Selected Seats info */}
-            <div className="flex items-center justify-between text-slate-700">
-              <div>
-                <span className="font-medium">Reservasi Nomor Kursi</span>
-                <div className="text-[10px] text-slate-400">
-                  Kursi: {selectedSeats.join(', ')}
+            {!isStandingTicket && selectedSeats && selectedSeats.length > 0 && (
+              <div className="flex items-center justify-between text-slate-700">
+                <div>
+                  <span className="font-medium">Reservasi Nomor Kursi</span>
+                  <div className="text-[10px] text-slate-400">
+                    Kursi: {selectedSeats.join(', ')}
+                  </div>
                 </div>
+                <span className="font-semibold text-emerald-600">Termasuk</span>
               </div>
-              <span className="font-semibold text-emerald-600">Termasuk</span>
-            </div>
+            )}
 
             {/* Add-ons breakdown */}
             {calculations.regularAddonsPrice > 0 && (

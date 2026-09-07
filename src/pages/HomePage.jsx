@@ -57,7 +57,7 @@ export const HomePage = () => {
           <div>
             <div className="text-xs text-white/80 font-normal">Good Night</div>
             <div className="text-base font-bold tracking-tight text-white flex items-center gap-1">
-              <span>YONATAN KRISTIAN ...</span>
+              <span>ANGELIKA FENDYS</span>
             </div>
           </div>
 
@@ -294,7 +294,7 @@ export const HomePage = () => {
           <div className="relative z-10 max-w-[215px]">
             <div className="flex items-center gap-1.5 mb-1">
               <span className="font-extrabold text-base tracking-tight flex items-center gap-1">
-                <span>KAI Access Event</span>
+                <span>AccessXperience (Access Ticket Event)</span>
                 <Sparkles size={14} className="text-amber-300 fill-amber-300" />
               </span>
               <span className="bg-amber-400 text-slate-900 text-[10px] font-black px-2 py-0.5 rounded-full shadow-sm uppercase tracking-wider">

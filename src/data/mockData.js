@@ -1,9 +1,10 @@
 export const USER_PROFILE = {
-  name: "Yonatan Kristian",
-  email: "yonatan.kristian@kai.id",
-  phone: "081289123456",
+  name: "Angelika Fendys",
+  email: "angelikafsh@gmail.com",
+  phone: "089680947898",
   idType: "KTP",
-  idNumber: "3174092305940003",
+  idNumber: "3372051203990002",
+  address: "Jebres, Surakarta",
   railpoints: 240,
   tier: "Premium",
   kaipayBalance: 2500000,
@@ -270,10 +271,10 @@ export const MOCK_ADDONS = [
   },
   {
     id: "addon-lokocafe",
-    name: "Paket Makan & Kopi Lokocafe",
+    name: "Paket Makan + Kopi LokoCafe",
     category: "Makanan & Minuman",
     description: "1 porsi Nasi Rawon Daging / Rice Bowl Ayam Crispy + Es Kopi Loko Signature disajikan langsung di venue.",
-    price: 45000,
+    price: 60000,
     badge: "Favorit",
     image: "https://images.unsplash.com/photo-1544025162-d76694265947?q=80&w=400&auto=format&fit=crop"
   },
@@ -288,10 +289,10 @@ export const MOCK_ADDONS = [
   },
   {
     id: "addon-merch",
-    name: "Exclusive Merch & Fast Track Pass",
-    category: "Merchandise & Fasilitas",
-    description: "T-shirt resmi edisi kolektor, lanyard bertanda tangan artis, serta akses jalur gerbang khusus tanpa antrean.",
-    price: 65000,
+    name: "Claim Exclusive Merch",
+    category: "Merchandise",
+    description: "T-shirt resmi edisi kolektor dan paket merchandise eksklusif official event.",
+    price: 120000,
     badge: "Eksklusif",
     image: "https://images.unsplash.com/photo-1521572267360-ee0c2909d518?q=80&w=400&auto=format&fit=crop"
   }
@@ -306,7 +307,7 @@ export const INITIAL_TICKETS_HISTORY = [
     time: "19:00 WIB",
     venue: "Stasiun Jakarta Kota Heritage Hall",
     city: "Jakarta Barat",
-    passengerName: "Yonatan Kristian",
+    passengerName: "Angelika Fendys",
     ticketType: "VIP Diamond",
     seatNumber: "A4, A5",
     quantity: 2,

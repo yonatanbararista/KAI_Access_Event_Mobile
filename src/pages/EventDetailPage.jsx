@@ -181,9 +181,6 @@ export const EventDetailPage = () => {
                       {formatIDR(tier.price)}
                     </div>
                   </div>
-                  <span className="text-[10px] font-semibold bg-emerald-50 text-emerald-700 px-2 py-0.5 rounded-full border border-emerald-200">
-                    Sisa {tier.quota} tiket
-                  </span>
                 </div>
 
                 <div className="mt-2 pt-2 border-t border-slate-100 space-y-1">

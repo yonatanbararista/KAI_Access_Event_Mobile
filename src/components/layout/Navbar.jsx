@@ -3,7 +3,7 @@ import { ArrowLeft, Home, Share2 } from 'lucide-react';
 import { useBooking } from '../../context/BookingContext';
 
 export const Navbar = ({ title, subtitle, showBack = true, stepNumber, totalSteps = 6, onBack }) => {
-  const { currentStep, setCurrentStep } = useBooking();
+  const { currentStep, setCurrentStep, isStandingTicket } = useBooking();
 
   const handleBack = () => {
     if (onBack) {
@@ -27,7 +27,7 @@ export const Navbar = ({ title, subtitle, showBack = true, stepNumber, totalStep
         setCurrentStep('passengers');
         break;
       case 'addons':
-        setCurrentStep('seats');
+        setCurrentStep(isStandingTicket ? 'passengers' : 'seats');
         break;
       case 'checkout':
         setCurrentStep('addons');

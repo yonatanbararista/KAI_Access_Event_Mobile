@@ -14,7 +14,8 @@ export const AddOnsPage = () => {
     selectedTrain,
     setSelectedTrain,
     ticketQuantity,
-    setCurrentStep
+    setCurrentStep,
+    isStandingTicket
   } = useBooking();
 
   const formatIDR = (num) => `IDR ${Number(num).toLocaleString('id-ID')}`;
@@ -39,10 +40,10 @@ export const AddOnsPage = () => {
       <Navbar
         title="Layanan Tambahan (Add-ons)"
         subtitle={selectedEvent?.title}
-        stepNumber={4}
-        totalSteps={6}
+        stepNumber={isStandingTicket ? 3 : 4}
+        totalSteps={isStandingTicket ? 5 : 6}
         showBack={true}
-        onBack={() => setCurrentStep('seats')}
+        onBack={() => setCurrentStep(isStandingTicket ? 'passengers' : 'seats')}
       />
 
       <div className="p-4 space-y-4 flex-1">
