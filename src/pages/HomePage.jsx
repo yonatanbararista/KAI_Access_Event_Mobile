@@ -3,6 +3,7 @@ import {
   ShoppingCart, 
   Mail, 
   ChevronDown, 
+  ChevronRight,
   QrCode, 
   Wallet, 
   History, 
