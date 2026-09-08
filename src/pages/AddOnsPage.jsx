@@ -40,10 +40,10 @@ export const AddOnsPage = () => {
       <Navbar
         title="Layanan Tambahan (Add-ons)"
         subtitle={selectedEvent?.title}
-        stepNumber={isStandingTicket ? 3 : 4}
-        totalSteps={isStandingTicket ? 5 : 6}
+        stepNumber={3}
+        totalSteps={5}
         showBack={true}
-        onBack={() => setCurrentStep(isStandingTicket ? 'passengers' : 'seats')}
+        onBack={() => setCurrentStep('passengers')}
       />
 
       <div className="p-4 space-y-4 flex-1">

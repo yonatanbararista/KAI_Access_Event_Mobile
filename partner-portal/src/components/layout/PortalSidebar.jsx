@@ -63,7 +63,8 @@ export function PortalSidebar({ isCollapsed, setIsCollapsed, isMobileOpen, setIs
       children: [
         { id: 'tickets-types', label: 'Ticket Types' },
         { id: 'tickets-quota', label: 'Quota & Pricing' },
-        { id: 'tickets-seating', label: 'Seating' },
+        { id: 'tickets-seating', label: 'Seating & Denah' },
+        { id: 'tickets-addons', label: 'Add-ons & Jersey' },
         { id: 'tickets-promo', label: 'Promo Codes' },
       ],
     },

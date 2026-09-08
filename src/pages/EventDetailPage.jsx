@@ -101,10 +101,10 @@ export const EventDetailPage = () => {
         </div>
 
         {/* Content Tabs */}
-        <div className="flex border-b border-slate-200 bg-white rounded-xl p-1 shadow-2xs">
+        <div className="flex border-b border-slate-200 bg-white rounded-xl p-1 shadow-2xs overflow-x-auto no-scrollbar">
           <button
             onClick={() => setActiveTab('detail')}
-            className={`flex-1 py-1.5 text-xs font-bold rounded-lg transition-colors ${
+            className={`flex-1 py-1.5 px-2 text-xs font-bold rounded-lg transition-colors whitespace-nowrap ${
               activeTab === 'detail' ? 'bg-kai-blue text-white shadow-xs' : 'text-slate-500 hover:text-slate-800'
             }`}
           >
@@ -112,15 +112,26 @@ export const EventDetailPage = () => {
           </button>
           <button
             onClick={() => setActiveTab('tickets')}
-            className={`flex-1 py-1.5 text-xs font-bold rounded-lg transition-colors ${
+            className={`flex-1 py-1.5 px-2 text-xs font-bold rounded-lg transition-colors whitespace-nowrap ${
               activeTab === 'tickets' ? 'bg-kai-blue text-white shadow-xs' : 'text-slate-500 hover:text-slate-800'
             }`}
           >
             Kategori Tiket
           </button>
+          {selectedEvent.jerseyInfo && (
+            <button
+              onClick={() => setActiveTab('jersey')}
+              className={`flex-1 py-1.5 px-2 text-xs font-bold rounded-lg transition-colors whitespace-nowrap flex items-center justify-center gap-1 ${
+                activeTab === 'jersey' ? 'bg-kai-blue text-white shadow-xs' : 'text-kai-blue font-extrabold hover:bg-blue-50'
+              }`}
+            >
+              <span>Jersey & Race Pack</span>
+              <span className="w-1.5 h-1.5 rounded-full bg-kai-orange animate-ping" />
+            </button>
+          )}
           <button
             onClick={() => setActiveTab('terms')}
-            className={`flex-1 py-1.5 text-xs font-bold rounded-lg transition-colors ${
+            className={`flex-1 py-1.5 px-2 text-xs font-bold rounded-lg transition-colors whitespace-nowrap ${
               activeTab === 'terms' ? 'bg-kai-blue text-white shadow-xs' : 'text-slate-500 hover:text-slate-800'
             }`}
           >
@@ -196,6 +207,120 @@ export const EventDetailPage = () => {
           </div>
         )}
 
+        {/* Tab: Jersey Size Chart & Race Pack Info */}
+        {activeTab === 'jersey' && selectedEvent.jerseyInfo && (
+          <div className="space-y-4 animate-in fade-in duration-200">
+            {/* Jersey Material Card */}
+            <div className="bg-white rounded-2xl p-4 border border-slate-200 shadow-xs space-y-3">
+              <div className="flex items-center justify-between pb-2 border-b border-slate-100">
+                <h3 className="text-xs font-bold text-slate-900 uppercase tracking-wider flex items-center gap-1.5">
+                  <Sparkles size={14} className="text-kai-orange" />
+                  <span>Official Running Jersey 2027</span>
+                </h3>
+                <span className="text-[10px] font-bold bg-blue-50 text-kai-blue px-2 py-0.5 rounded-full border border-blue-100">
+                  Included in Ticket
+                </span>
+              </div>
+
+              <div>
+                <span className="text-[11px] text-slate-400 font-medium block">Spesifikasi Bahan:</span>
+                <p className="text-xs font-bold text-slate-800 mt-0.5">
+                  {selectedEvent.jerseyInfo.material}
+                </p>
+                <p className="text-[11px] text-slate-500 mt-1">
+                  Warna: <span className="font-semibold text-slate-700">{selectedEvent.jerseyInfo.color}</span>
+                </p>
+              </div>
+
+              <div className="pt-2 border-t border-slate-100 space-y-1.5">
+                <span className="text-[11px] font-bold text-slate-700 block">Fitur Unggulan:</span>
+                {selectedEvent.jerseyInfo.features?.map((f, i) => (
+                  <div key={i} className="flex items-start gap-2 text-[11px] text-slate-600">
+                    <Check size={13} className="text-emerald-500 shrink-0 mt-0.5" />
+                    <span>{f}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Detailed Size Chart Table */}
+            <div className="bg-white rounded-2xl p-4 border border-slate-200 shadow-xs space-y-3">
+              <div className="flex items-center justify-between pb-2 border-b border-slate-100">
+                <h3 className="text-xs font-bold text-slate-900 uppercase tracking-wider">
+                  Panduan Ukuran Jersey (Size Chart)
+                </h3>
+                <span className="text-[10px] text-slate-400">Satuan cm</span>
+              </div>
+
+              <div className="overflow-x-auto">
+                <table className="w-full text-left text-xs">
+                  <thead>
+                    <tr className="bg-slate-50 text-[10px] uppercase font-bold text-slate-500 border-b border-slate-200">
+                      <th className="py-2 px-2 text-center rounded-l-lg">Size</th>
+                      <th className="py-2 px-2 text-center">Lebar (A)</th>
+                      <th className="py-2 px-2 text-center">Panjang (B)</th>
+                      <th className="py-2 px-2 text-center">Lingkar Dada</th>
+                      <th className="py-2 px-2 text-center rounded-r-lg">Tinggi Badan</th>
+                    </tr>
+                  </thead>
+                  <tbody className="divide-y divide-slate-100">
+                    {selectedEvent.jerseyInfo.sizeChart?.map((sc) => (
+                      <tr key={sc.size} className="hover:bg-blue-50/40 transition-colors">
+                        <td className="py-2 px-2 font-black text-center text-kai-blue">
+                          <span className="inline-block w-6 h-6 leading-6 rounded-full bg-blue-50 border border-blue-200">
+                            {sc.size}
+                          </span>
+                        </td>
+                        <td className="py-2 px-2 text-center font-bold text-slate-800">{sc.chestWidth} cm</td>
+                        <td className="py-2 px-2 text-center font-bold text-slate-800">{sc.length} cm</td>
+                        <td className="py-2 px-2 text-center text-slate-600">{sc.chestCircumference}</td>
+                        <td className="py-2 px-2 text-center text-slate-600">{sc.heightRec}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+
+              <div className="text-[10px] text-slate-500 bg-slate-50 p-2.5 rounded-xl border border-slate-200 leading-relaxed">
+                * Pengukuran dianjurkan dengan mengukur lebar baju olahraga yang nyaman digunakan dari bawah ketiak kiri ke ketiak kanan (Lebar Dada). Toleransi ukuran 1 - 2 cm.
+              </div>
+            </div>
+
+            {/* Race Pack Collection Card */}
+            {selectedEvent.jerseyInfo.racePackCollection && (
+              <div className="bg-gradient-to-br from-amber-50 to-orange-50/60 rounded-2xl p-4 border border-amber-200 shadow-xs space-y-2.5">
+                <div className="flex items-center justify-between pb-1.5 border-b border-amber-200/60">
+                  <h4 className="text-xs font-bold text-amber-900 uppercase tracking-wider flex items-center gap-1.5">
+                    <Sparkles size={14} className="text-amber-600" />
+                    <span>Pengambilan Race Pack (RPC)</span>
+                  </h4>
+                </div>
+
+                <div className="text-xs text-slate-700 space-y-1">
+                  <div>
+                    <span className="text-[10px] text-slate-500 font-bold block">Lokasi Pengambilan:</span>
+                    <span className="font-extrabold text-slate-900">{selectedEvent.jerseyInfo.racePackCollection.venue}</span>
+                  </div>
+                  <div>
+                    <span className="text-[10px] text-slate-500 font-bold block">Waktu:</span>
+                    <span className="font-semibold text-slate-800">{selectedEvent.jerseyInfo.racePackCollection.dates}</span>
+                  </div>
+                </div>
+
+                <div className="pt-2 border-t border-amber-200/60 space-y-1">
+                  <span className="text-[11px] font-bold text-slate-800 block">Isi Paket Race Pack:</span>
+                  {selectedEvent.jerseyInfo.racePackCollection.items?.map((item, idx) => (
+                    <div key={idx} className="flex items-start gap-1.5 text-[11px] text-slate-700">
+                      <span className="text-kai-orange font-bold">•</span>
+                      <span>{item}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+          </div>
+        )}
+
         {/* Tab 3: Terms & Conditions */}
         {activeTab === 'terms' && (
           <div className="bg-white rounded-2xl p-4 border border-slate-200 text-xs text-slate-600 space-y-2.5">
@@ -204,6 +329,7 @@ export const EventDetailPage = () => {
             <p>2. E-ticket resmi dengan QR Code akan terbit otomatis setelah pembayaran diverifikasi.</p>
             <p>3. Tiket yang sudah dibeli tidak dapat dibatalkan (non-refundable) kecuali ada pembatalan resmi dari pihak promotor.</p>
             <p>4. Nikmati diskon perjalanan kereta api sebesar 5% bagi penonton yang memilih opsi add-on kereta api.</p>
+            <p>5. Pengambilan race pack wajib menunjukkan e-ticket resmi di KAI Access dan tanda pengenal (KTP/Paspor).</p>
           </div>
         )}
       </div>

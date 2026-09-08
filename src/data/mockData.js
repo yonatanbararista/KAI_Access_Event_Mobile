@@ -25,9 +25,99 @@ export const EVENT_MONTHS = [
   "September 2026",
   "Oktober 2026",
   "November 2026",
+  "April 2027",
 ];
 
 export const MOCK_EVENTS = [
+  {
+    id: "evt-heritage-run",
+    title: "KAI Heritage Run 2027",
+    category: "Olahraga",
+    month: "April 2027",
+    date: "Sabtu, 17 April 2027",
+    time: "06:00 WIB",
+    venue: "Stasiun Semarang Tawang - Lawang Sewu",
+    city: "Semarang",
+    startingPrice: 150000,
+    banner: "/kai_heritage_run.jpg",
+    heroImage: "/kai_heritage_run.jpg",
+    organizer: "PT Kereta Api Indonesia (Persero) x KAI Wisata",
+    description: "Lari bersejarah spektakuler melintasi keindahan warisan arsitektur kolonial Semarang. Titik start dari Lawang Sewu melintasi kawasan cagar budaya Kota Lama dan berakhir di Stasiun Semarang Tawang. Menggabungkan semangat gaya hidup sehat, olahraga lari, dan apresiasi sejarah perkeretaapian Indonesia.",
+    highlights: [
+      "Rute lari cagar budaya: Lawang Sewu, Kawasan Kota Lama & Stasiun Semarang Tawang",
+      "Official Running Jersey bahan Premium High-Performance Micro Dry-Fit Fabric",
+      "Exclusive Heavy Cast Finisher Medal berdesain lokomotif uap bersejarah",
+      "BIB Number dilengkapi RFID Electronic Timing Chip berstandar internasional",
+      "Hydration point & refreshment stasiun di setiap 2.5 KM dengan booth LokoCafe",
+      "Akses gerbong khusus pelari & diskon 5% tiket kereta api KAI ke Semarang"
+    ],
+    jerseyInfo: {
+      material: "100% High-Performance Micro Dry-Fit Fabric (Breathable, Quick-Dry, Anti-UV UPF 50+, Ultra Lightweight 120gsm)",
+      color: "Navy Blue & KAI Energetic Orange with Reflective Safety Strips",
+      features: [
+        "Teknologi Fast Moisture-Wicking menyerap dan menguapkan keringat seketika",
+        "Strip reflektif 3M di bagian belakang untuk keamanan lari subuh (06:00 WIB)",
+        "Jahitan Flatlock anti-gesekan (chafing-free) untuk kenyamanan maraton",
+        "Potongan atletis ergonomis uniseks yang fleksibel"
+      ],
+      sizeChart: [
+        { size: "S", chestWidth: 48, length: 66, chestCircumference: "92 - 96 cm", heightRec: "155 - 165 cm" },
+        { size: "M", chestWidth: 50, length: 68, chestCircumference: "96 - 100 cm", heightRec: "165 - 172 cm" },
+        { size: "L", chestWidth: 52, length: 70, chestCircumference: "100 - 104 cm", heightRec: "170 - 178 cm" },
+        { size: "XL", chestWidth: 54, length: 72, chestCircumference: "104 - 108 cm", heightRec: "175 - 183 cm" },
+        { size: "XXL", chestWidth: 56, length: 74, chestCircumference: "108 - 114 cm", heightRec: "> 180 cm" }
+      ],
+      racePackCollection: {
+        venue: "Historic Ballroom Lawang Sewu, Semarang",
+        dates: "15 - 16 April 2027 (Pukul 10:00 - 20:00 WIB)",
+        items: [
+          "Official Dry-Fit Running Jersey KAI Heritage Run 2027 (sesuai ukuran)",
+          "Running BIB Number + RFID Electronic Timing Tag",
+          "Drawstring / Tote Bag Eksklusif KAI Heritage Run",
+          "Voucher Makan & Minuman LokoCafe IDR 25.000",
+          "Produk Sponsor, Refreshment Pack & Asuransi Kecelakaan Pelari",
+          "Finisher Medal (diberikan di finish line setelah menuntaskan rute)"
+        ]
+      }
+    },
+    tickets: [
+      {
+        id: "tkt-run-21k",
+        name: "21K Half Marathon",
+        price: 350000,
+        quota: 85,
+        perks: [
+          "BIB Number dengan RFID Timing Chip",
+          "Official Dry-Fit Jersey & 21K Finisher Tee",
+          "Exclusive Heavy Cast Finisher Medal 21K",
+          "Recovery Meal Box LokoCafe & Isotonic Drink"
+        ]
+      },
+      {
+        id: "tkt-run-10k",
+        name: "10K Race",
+        price: 250000,
+        quota: 160,
+        perks: [
+          "BIB Number dengan RFID Timing Chip",
+          "Official Dry-Fit Jersey KAI Heritage",
+          "Finisher Medal 10K",
+          "Refreshment Station & Shuttle Stasiun Tawang"
+        ]
+      },
+      {
+        id: "tkt-run-5k",
+        name: "5K Fun Run",
+        price: 150000,
+        quota: 320,
+        perks: [
+          "BIB Number & Official Dry-Fit Jersey",
+          "Finisher Medal 5K",
+          "Voucher Minuman LokoCafe & Asuransi Pelari"
+        ]
+      }
+    ]
+  },
   {
     id: "evt-01",
     title: "Prambanan Jazz Festival 2026",
@@ -257,6 +347,66 @@ export const MOCK_TRAIN_SCHEDULES = [
     discountPercent: 5,
     discountedPrice: 228000,
     availableSeats: 26
+  },
+  {
+    id: "trn-05",
+    trainName: "Argo Muria",
+    trainNumber: "KA 14",
+    trainClass: "Eksekutif",
+    origin: "Gambir (GMR)",
+    destination: "Semarang Tawang (SMT)",
+    departure: "07:00",
+    arrival: "12:15",
+    duration: "5j 15m",
+    originalPrice: 400000,
+    discountPercent: 5,
+    discountedPrice: 380000,
+    availableSeats: 42
+  },
+  {
+    id: "trn-06",
+    trainName: "Argo Sindoro",
+    trainNumber: "KA 12",
+    trainClass: "Eksekutif",
+    origin: "Gambir (GMR)",
+    destination: "Semarang Tawang (SMT)",
+    departure: "16:40",
+    arrival: "21:55",
+    duration: "5j 15m",
+    originalPrice: 400000,
+    discountPercent: 5,
+    discountedPrice: 380000,
+    availableSeats: 35
+  },
+  {
+    id: "trn-07",
+    trainName: "Tawang Jaya Premium",
+    trainNumber: "KA 162",
+    trainClass: "Ekonomi Premium",
+    origin: "Pasar Senen (PSE)",
+    destination: "Semarang Tawang (SMT)",
+    departure: "09:55",
+    arrival: "16:15",
+    duration: "6j 20m",
+    originalPrice: 260000,
+    discountPercent: 5,
+    discountedPrice: 247000,
+    availableSeats: 58
+  },
+  {
+    id: "trn-08",
+    trainName: "Joglosemarkerto",
+    trainNumber: "KA 195",
+    trainClass: "Eksekutif",
+    origin: "Solo Balapan (SLO)",
+    destination: "Semarang Tawang (SMT)",
+    departure: "06:15",
+    arrival: "08:30",
+    duration: "2j 15m",
+    originalPrice: 160000,
+    discountPercent: 5,
+    discountedPrice: 152000,
+    availableSeats: 28
   }
 ];
 

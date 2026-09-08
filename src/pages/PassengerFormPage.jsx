@@ -28,11 +28,8 @@ export const PassengerFormPage = () => {
       return;
     }
     setErrorMessage('');
-    if (isStandingTicket) {
-      setCurrentStep('addons');
-    } else {
-      setCurrentStep('seats');
-    }
+    // Skip seat selection and go directly to addons
+    setCurrentStep('addons');
   };
 
   return (
@@ -41,7 +38,7 @@ export const PassengerFormPage = () => {
         title="Data Pemesan & Penumpang"
         subtitle={selectedEvent?.title}
         stepNumber={2}
-        totalSteps={isStandingTicket ? 5 : 6}
+        totalSteps={5}
         showBack={true}
         onBack={() => setCurrentStep('tickets')}
       />
@@ -166,7 +163,7 @@ export const PassengerFormPage = () => {
             <span className="text-[11px] text-slate-400">Sesuai KTP/Paspor</span>
           </div>
 
-          {Array.from({ length: ticketQuantity }).map((_, index) => (
+          {passengers.map((passenger, index) => (
             <div
               key={index}
               className="bg-white rounded-2xl p-4 border border-slate-200 shadow-xs space-y-3"
@@ -177,6 +174,11 @@ export const PassengerFormPage = () => {
                     {index + 1}
                   </span>
                   <span>Penumpang {index + 1}</span>
+                  {passenger.tierName && (
+                    <span className="text-[10px] bg-blue-50 text-kai-blue font-bold px-2 py-0.5 rounded-md border border-blue-200 ml-1">
+                      {passenger.tierName}
+                    </span>
+                  )}
                 </div>
                 {index === 0 && useProfileData && (
                   <span className="text-[10px] text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded-full font-semibold border border-emerald-200">
@@ -227,6 +229,46 @@ export const PassengerFormPage = () => {
                   />
                 </div>
               </div>
+
+              {/* JERSEY SIZE SELECTOR FOR EACH PASSENGER */}
+              <div className="pt-2.5 border-t border-slate-100 space-y-2">
+                <div className="flex items-center justify-between">
+                  <label className="text-[11px] font-bold text-slate-800 flex items-center gap-1">
+                    <span>Ukuran Jersey Resmi (Running T-Shirt)</span>
+                    <span className="text-red-500">*</span>
+                  </label>
+                  <span className="text-[10px] text-kai-blue font-bold bg-blue-50 px-2 py-0.5 rounded-full border border-blue-100">
+                    Bahan Micro Dry-Fit
+                  </span>
+                </div>
+
+                <div className="grid grid-cols-5 gap-1.5">
+                  {['S', 'M', 'L', 'XL', 'XXL'].map((size) => {
+                    const isSelected = (passengers[index]?.jerseySize || 'M') === size;
+                    return (
+                      <button
+                        key={size}
+                        type="button"
+                        onClick={() => updatePassenger(index, 'jerseySize', size)}
+                        className={`py-1.5 rounded-xl text-xs font-black transition-all flex flex-col items-center justify-center border tap-active ${
+                          isSelected
+                            ? 'bg-kai-blue text-white border-kai-blue shadow-xs ring-2 ring-kai-blue/20'
+                            : 'bg-slate-50 text-slate-700 border-slate-200 hover:bg-slate-100'
+                        }`}
+                      >
+                        <span>{size}</span>
+                      </button>
+                    );
+                  })}
+                </div>
+
+                <div className="text-[10px] text-slate-500 flex items-center justify-between pt-0.5">
+                  <span>Lebar Dada: S(48cm) M(50cm) L(52cm) XL(54cm) XXL(56cm)</span>
+                  <span className="font-extrabold text-kai-blue">
+                    Ukuran: {passengers[index]?.jerseySize || 'M'}
+                  </span>
+                </div>
+              </div>
             </div>
           ))}
         </div>
@@ -241,7 +283,7 @@ export const PassengerFormPage = () => {
 
       {/* Sticky Bottom Summary */}
       <BookingSummarySidebar
-        nextLabel={isStandingTicket ? "Lanjut ke Layanan Tambahan" : "Pilih Kursi"}
+        nextLabel="Lanjut ke Layanan Tambahan"
         onNext={handleNext}
       />
     </div>

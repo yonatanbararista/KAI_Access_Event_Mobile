@@ -20,9 +20,10 @@ import {
 import { IosStatusBar } from '../components/layout/IosStatusBar';
 import { BottomNavigation } from '../components/layout/BottomNavigation';
 import { useBooking } from '../context/BookingContext';
+import { MOCK_EVENTS } from '../data/mockData';
 
 export const HomePage = () => {
-  const { setCurrentStep, USER_PROFILE } = useBooking();
+  const { setCurrentStep, selectEvent, USER_PROFILE } = useBooking();
   const [toastMsg, setToastMsg] = useState(null);
 
   const showPlaceholderToast = (name) => {
@@ -335,6 +336,63 @@ export const HomePage = () => {
                 <span className="text-[8px] font-extrabold text-center">STAGE PASS</span>
                 <div className="text-[6px] text-center opacity-70">SEAT A12</div>
               </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* BANNER 0.5: KAI HERITAGE RUN 2027 SPECIAL EVENT BANNER */}
+      <div className="px-4 mt-3">
+        <div
+          onClick={() => {
+            const runEvent = MOCK_EVENTS.find(e => e.id === 'evt-heritage-run');
+            if (runEvent) selectEvent(runEvent);
+          }}
+          className="relative rounded-2xl overflow-hidden bg-slate-900 shadow-md cursor-pointer tap-active border border-orange-500/30 group"
+        >
+          <div className="relative h-44 w-full overflow-hidden">
+            <img
+              src="/kai_heritage_run.jpg"
+              alt="KAI Heritage Run 2027"
+              className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/30 to-transparent" />
+            
+            {/* Top Badges */}
+            <div className="absolute top-2.5 left-2.5 flex items-center gap-1.5">
+              <span className="bg-kai-orange text-white text-[10px] font-black px-2.5 py-0.5 rounded-full shadow-sm uppercase tracking-wide flex items-center gap-1">
+                <Flame size={11} className="fill-white" /> Olahraga
+              </span>
+              <span className="bg-slate-900/80 backdrop-blur-sm text-white text-[10px] font-bold px-2 py-0.5 rounded-full border border-white/20">
+                Semarang, Indonesia
+              </span>
+            </div>
+
+            {/* Bottom Content Info */}
+            <div className="absolute bottom-2.5 left-3 right-3 flex items-end justify-between">
+              <div>
+                <span className="text-[10px] text-amber-300 font-bold block">
+                  Sabtu, 17 April 2027 • Jam 06:00 WIB
+                </span>
+                <h3 className="font-extrabold text-sm text-white leading-tight mt-0.5">
+                  KAI Heritage Run 2027
+                </h3>
+                <span className="text-[10px] text-slate-300">
+                  21K • 10K • 5K | Free Official Micro Dry-Fit Jersey
+                </span>
+              </div>
+
+              <button
+                onClick={(e) => {
+                  e.stopPropagation();
+                  const runEvent = MOCK_EVENTS.find(e => e.id === 'evt-heritage-run');
+                  if (runEvent) selectEvent(runEvent);
+                }}
+                className="bg-kai-orange hover:bg-orange-600 text-white font-extrabold text-xs px-3.5 py-1.5 rounded-full shadow-md flex items-center gap-1 shrink-0 tap-active"
+              >
+                <span>Daftar</span>
+                <ChevronRight size={13} />
+              </button>
             </div>
           </div>
         </div>

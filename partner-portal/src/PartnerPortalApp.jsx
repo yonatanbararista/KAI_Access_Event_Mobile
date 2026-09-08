@@ -10,6 +10,7 @@ import { TicketTypesPage } from './pages/Tickets/TicketTypesPage';
 import { QuotaPricingPage } from './pages/Tickets/QuotaPricingPage';
 import { SeatingPage } from './pages/Tickets/SeatingPage';
 import { PromoCodesPage } from './pages/Tickets/PromoCodesPage';
+import { AddOnsManagementPage } from './pages/Tickets/AddOnsManagementPage';
 import { OrdersPage } from './pages/Sales/OrdersPage';
 import { AttendeesPage } from './pages/Sales/AttendeesPage';
 import { CheckInPage } from './pages/CheckIn/CheckInPage';
@@ -41,6 +42,8 @@ function PortalRouter() {
       return <SeatingPage />;
     case 'tickets-promo':
       return <PromoCodesPage />;
+    case 'tickets-addons':
+      return <AddOnsManagementPage />;
     case 'sales-orders':
       return <OrdersPage />;
     case 'sales-attendees':

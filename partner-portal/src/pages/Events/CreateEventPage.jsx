@@ -627,13 +627,19 @@ export function CreateEventPage() {
           </div>
         )}
 
-        {/* Step 5: Seating */}
+        {/* Step 5: Seating, Layout, Benefits & Other Info Images */}
         {currentStep === 5 && (
           <div className="space-y-6 animate-fadeIn">
-            <h3 className="text-base font-bold text-slate-900 pb-2 border-b border-slate-100">
-              Langkah 5: Konfigurasi Tipe Kursi (Seating Management)
-            </h3>
+            <div>
+              <h3 className="text-base font-bold text-slate-900">
+                Langkah 5: Denah Kursi, Manfaat Kategori & Gambar Informasi Acara
+              </h3>
+              <p className="text-xs text-slate-500 mt-0.5">
+                Atur tipe kursi, unggah denah panggung/layout seat, kelola keuntungan tiket (benefits), dan infografis penting.
+              </p>
+            </div>
 
+            {/* 1. Seating Type Selector */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div
                 onClick={() => setFormData({ ...formData, hasSeating: true, seatingType: 'Assigned Seating' })}
@@ -655,7 +661,7 @@ export function CreateEventPage() {
                   />
                 </div>
                 <p className="text-xs text-slate-500 leading-relaxed">
-                  Peserta memilih nomor baris dan kursi saat checkout (VIP, CAT 1, CAT 2). Dilengkapi visual seat map editor di portal promotor.
+                  Peserta mendapatkan nomor baris dan kursi bernomor. Dilengkapi visual seat map editor di portal promotor.
                 </p>
               </div>
 
@@ -669,7 +675,7 @@ export function CreateEventPage() {
               >
                 <div className="flex items-center justify-between mb-2">
                   <h4 className="font-bold text-sm text-slate-900">
-                    Free Standing (Festival Tanpa Nomor)
+                    Free Standing (Festival / Lari Tanpa Nomor Duduk)
                   </h4>
                   <input
                     type="radio"
@@ -679,25 +685,184 @@ export function CreateEventPage() {
                   />
                 </div>
                 <p className="text-xs text-slate-500 leading-relaxed">
-                  Akses umum festival berdiri bebas atau general admission expo. Kuota tiket diatur per tier tanpa alokasi nomor kursi.
+                  Akses umum festival berdiri bebas atau event lari. Kuota tiket diatur per tier tanpa alokasi nomor kursi statis.
                 </p>
+              </div>
+            </div>
+
+            {/* 2. Upload Space for Layout Seat */}
+            <div className="bg-white rounded-2xl p-5 border border-slate-200 shadow-2xs space-y-3">
+              <div className="flex items-center justify-between pb-2 border-b border-slate-100">
+                <div>
+                  <h4 className="text-xs font-bold text-slate-900 uppercase tracking-wider">
+                    Upload Denah Kursi & Panggung (Seat Layout Map)
+                  </h4>
+                  <span className="text-[11px] text-slate-500">
+                    Unggah denah visual panggung atau rute untuk ditampilkan di aplikasi
+                  </span>
+                </div>
+                <span className="text-[10px] bg-blue-50 text-kai-blue font-bold px-2 py-0.5 rounded">
+                  Format PNG / JPG
+                </span>
+              </div>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 items-center">
+                <div className="border-2 border-dashed border-slate-300 rounded-xl p-5 text-center hover:border-kai-blue transition-colors bg-slate-50">
+                  <Upload className="w-8 h-8 text-slate-400 mx-auto mb-2" />
+                  <span className="text-xs font-bold text-kai-blue block">Pilih File Denah Kursi</span>
+                  <span className="text-[10px] text-slate-400">Rekomendasi resolusi tinggi min. 1200x800px</span>
+                  <input
+                    type="file"
+                    accept="image/*"
+                    onChange={(e) => handleImageUpload(e, 'seatLayoutUrl')}
+                    className="hidden"
+                    id="seatLayoutUpload"
+                  />
+                  <label
+                    htmlFor="seatLayoutUpload"
+                    className="mt-3 inline-block px-4 py-1.5 bg-kai-blue text-white font-bold text-xs rounded-lg cursor-pointer hover:bg-blue-700 transition-colors"
+                  >
+                    Unggah Gambar
+                  </label>
+                </div>
+
+                <div className="relative h-40 rounded-xl overflow-hidden bg-slate-100 border border-slate-200 flex items-center justify-center">
+                  {formData.seatLayoutUrl ? (
+                    <img
+                      src={formData.seatLayoutUrl}
+                      alt="Denah Kursi"
+                      className="w-full h-full object-cover"
+                    />
+                  ) : (
+                    <div className="text-center p-3 text-slate-400">
+                      <ImageIcon className="w-8 h-8 mx-auto mb-1 opacity-50" />
+                      <span className="text-xs">Belum ada denah diunggah</span>
+                    </div>
+                  )}
+                </div>
+              </div>
+            </div>
+
+            {/* 3. Space for Benefits (Keuntungan per Kategori) */}
+            <div className="bg-white rounded-2xl p-5 border border-slate-200 shadow-2xs space-y-3">
+              <div className="flex items-center justify-between pb-2 border-b border-slate-100">
+                <div>
+                  <h4 className="text-xs font-bold text-slate-900 uppercase tracking-wider">
+                    Keuntungan & Fasilitas Tiket (Category Benefits)
+                  </h4>
+                  <span className="text-[11px] text-slate-500">
+                    Fasilitas eksklusif yang didapatkan penonton untuk tiap kategori
+                  </span>
+                </div>
+              </div>
+
+              <div className="space-y-2">
+                {formData.tickets.map((tkt, idx) => (
+                  <div key={idx} className="p-3 bg-slate-50 border border-slate-200 rounded-xl space-y-2">
+                    <div className="flex items-center justify-between">
+                      <span className="font-bold text-xs text-slate-800 flex items-center gap-1.5">
+                        <span className="w-2 h-2 rounded-full bg-kai-blue" />
+                        {tkt.tier} — {tkt.name}
+                      </span>
+                      <span className="text-[11px] text-kai-blue font-extrabold">{formatIDR(tkt.price)}</span>
+                    </div>
+                    <input
+                      type="text"
+                      placeholder="cth: Free Official Dry-Fit Jersey, Free LokoCafe Box & Jalur Fast Track"
+                      defaultValue={idx === 0 ? "Akses Fast Track Gate, Kursi Nomor Terbaik, Official Merch" : "Akses Gate Reguler, Wristband Resmi"}
+                      className="w-full px-3 py-1.5 text-xs bg-white border border-slate-300 rounded-lg focus:outline-none focus:border-kai-blue"
+                    />
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* 4. Space for Upload Gambar Informasi Lain */}
+            <div className="bg-white rounded-2xl p-5 border border-slate-200 shadow-2xs space-y-3">
+              <div className="flex items-center justify-between pb-2 border-b border-slate-100">
+                <div>
+                  <h4 className="text-xs font-bold text-slate-900 uppercase tracking-wider">
+                    Upload Gambar Informasi Tambahan Acara
+                  </h4>
+                  <span className="text-[11px] text-slate-500">
+                    Unggah rundown acara, peta akses venue, dan lokasi penukaran tiket / race pack
+                  </span>
+                </div>
+              </div>
+
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                {/* Rundown */}
+                <div className="p-3 bg-slate-50 border border-slate-200 rounded-xl space-y-2 text-center">
+                  <span className="text-xs font-bold text-slate-800 block">1. Rundown Acara</span>
+                  <div className="h-28 rounded-lg bg-slate-200 border border-slate-300 overflow-hidden flex items-center justify-center">
+                    {formData.rundownUrl ? (
+                      <img src={formData.rundownUrl} alt="Rundown" className="w-full h-full object-cover" />
+                    ) : (
+                      <span className="text-[10px] text-slate-400">Belum ada file</span>
+                    )}
+                  </div>
+                  <label className="block w-full py-1 bg-white border border-slate-300 text-[11px] font-bold text-kai-blue rounded-lg cursor-pointer hover:bg-slate-100 transition-colors">
+                    Upload Rundown
+                    <input type="file" accept="image/*" onChange={(e) => handleImageUpload(e, 'rundownUrl')} className="hidden" />
+                  </label>
+                </div>
+
+                {/* Akses Venue */}
+                <div className="p-3 bg-slate-50 border border-slate-200 rounded-xl space-y-2 text-center">
+                  <span className="text-xs font-bold text-slate-800 block">2. Peta Akses Gate</span>
+                  <div className="h-28 rounded-lg bg-slate-200 border border-slate-300 overflow-hidden flex items-center justify-center">
+                    {formData.venueAccessUrl ? (
+                      <img src={formData.venueAccessUrl} alt="Akses Gate" className="w-full h-full object-cover" />
+                    ) : (
+                      <span className="text-[10px] text-slate-400">Belum ada file</span>
+                    )}
+                  </div>
+                  <label className="block w-full py-1 bg-white border border-slate-300 text-[11px] font-bold text-kai-blue rounded-lg cursor-pointer hover:bg-slate-100 transition-colors">
+                    Upload Denah Gate
+                    <input type="file" accept="image/*" onChange={(e) => handleImageUpload(e, 'venueAccessUrl')} className="hidden" />
+                  </label>
+                </div>
+
+                {/* Race Pack / Tiket */}
+                <div className="p-3 bg-slate-50 border border-slate-200 rounded-xl space-y-2 text-center">
+                  <span className="text-xs font-bold text-slate-800 block">3. Panduan Race Pack</span>
+                  <div className="h-28 rounded-lg bg-slate-200 border border-slate-300 overflow-hidden flex items-center justify-center">
+                    {formData.racePackUrl ? (
+                      <img src={formData.racePackUrl} alt="Race Pack" className="w-full h-full object-cover" />
+                    ) : (
+                      <span className="text-[10px] text-slate-400">Belum ada file</span>
+                    )}
+                  </div>
+                  <label className="block w-full py-1 bg-white border border-slate-300 text-[11px] font-bold text-kai-blue rounded-lg cursor-pointer hover:bg-slate-100 transition-colors">
+                    Upload Info RPC
+                    <input type="file" accept="image/*" onChange={(e) => handleImageUpload(e, 'racePackUrl')} className="hidden" />
+                  </label>
+                </div>
               </div>
             </div>
           </div>
         )}
 
-        {/* Step 6: Add-ons */}
+        {/* Step 6: Add-ons & Official Jersey Size Editor */}
         {currentStep === 6 && (
           <div className="space-y-6 animate-fadeIn">
-            <h3 className="text-base font-bold text-slate-900 pb-2 border-b border-slate-100">
-              Langkah 6: Layanan Tambahan (Add-ons)
-            </h3>
+            <div className="flex items-center justify-between pb-2 border-b border-slate-100">
+              <div>
+                <h3 className="text-base font-bold text-slate-900">
+                  Langkah 6: Layanan Tambahan (Add-ons) & Official Jersey
+                </h3>
+                <p className="text-xs text-slate-500">
+                  Kelola paket add-on penonton dan alokasi ukuran jersey (S, M, L, XL, XXL).
+                </p>
+              </div>
+            </div>
 
+            {/* Standard Add-ons Toggles */}
             <div className="space-y-3">
               {formData.addOns.map((add, i) => (
                 <div
                   key={i}
-                  className="p-4 bg-slate-50 border border-slate-200 rounded-xl flex items-center justify-between"
+                  className="p-4 bg-white border border-slate-200 rounded-xl flex items-center justify-between shadow-2xs"
                 >
                   <div className="flex items-center gap-3">
                     <input
@@ -717,11 +882,73 @@ export function CreateEventPage() {
                       </span>
                     </div>
                   </div>
-                  <span className="text-xs font-bold text-slate-600">
+                  <span className={`text-xs font-bold px-2.5 py-1 rounded-lg ${
+                    add.enabled ? 'bg-emerald-50 text-emerald-700' : 'bg-slate-100 text-slate-500'
+                  }`}>
                     {add.enabled ? 'Aktif' : 'Non-aktif'}
                   </span>
                 </div>
               ))}
+            </div>
+
+            {/* SPECIAL OFFICIAL JERSEY SIZES MANAGEMENT SECTION */}
+            <div className="bg-white rounded-2xl p-5 border-2 border-kai-blue/30 shadow-xs space-y-4">
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-3 border-b border-slate-100">
+                <div>
+                  <div className="flex items-center gap-2">
+                    <h4 className="text-sm font-extrabold text-slate-900">
+                      Konfigurasi Ukuran Jersey Resmi (Official Running Jersey)
+                    </h4>
+                    <span className="text-[10px] font-bold bg-kai-orange text-white px-2 py-0.5 rounded-full">
+                      T-Shirt Sizes
+                    </span>
+                  </div>
+                  <p className="text-xs text-slate-500 mt-0.5">
+                    Tentukan ukuran, dimensi lebar/panjang dada, kuota stok, dan harga satuan jersey.
+                  </p>
+                </div>
+              </div>
+
+              {/* Sizes Grid Editor */}
+              <div className="border border-slate-200 rounded-xl overflow-hidden divide-y divide-slate-100">
+                <div className="grid grid-cols-12 bg-slate-50 px-3 py-2 text-[10px] font-bold uppercase text-slate-500 tracking-wider">
+                  <div className="col-span-2">Ukuran</div>
+                  <div className="col-span-3">Lebar / Panjang</div>
+                  <div className="col-span-3">Stok Kuota</div>
+                  <div className="col-span-3">Harga Satuan</div>
+                  <div className="col-span-1 text-right">Status</div>
+                </div>
+
+                {[
+                  { sz: 'S', w: 48, l: 66, stock: 120, price: 150000 },
+                  { sz: 'M', w: 50, l: 68, stock: 300, price: 150000 },
+                  { sz: 'L', w: 52, l: 70, stock: 350, price: 150000 },
+                  { sz: 'XL', w: 54, l: 72, stock: 180, price: 150000 },
+                  { sz: 'XXL', w: 56, l: 74, stock: 80, price: 150000 },
+                ].map((item, sIdx) => (
+                  <div key={sIdx} className="grid grid-cols-12 px-3 py-2.5 items-center text-xs hover:bg-slate-50 transition-colors">
+                    <div className="col-span-2 font-black text-slate-900 flex items-center gap-1.5">
+                      <span className="w-6 h-6 rounded-md bg-blue-50 text-kai-blue border border-blue-200 flex items-center justify-center font-bold text-xs">
+                        {item.sz}
+                      </span>
+                    </div>
+                    <div className="col-span-3 text-slate-600 font-medium">
+                      {item.w} cm / {item.l} cm
+                    </div>
+                    <div className="col-span-3 font-bold text-slate-800">
+                      {item.stock} pcs
+                    </div>
+                    <div className="col-span-3 font-extrabold text-kai-blue">
+                      {formatIDR(item.price)}
+                    </div>
+                    <div className="col-span-1 text-right">
+                      <span className="text-emerald-600 font-bold text-[10px] bg-emerald-50 px-1.5 py-0.5 rounded">
+                        ✓ On
+                      </span>
+                    </div>
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
         )}

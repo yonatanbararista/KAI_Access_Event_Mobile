@@ -5,13 +5,34 @@ const BookingContext = createContext(null);
 
 export const BookingProvider = ({ children }) => {
   // Navigation / View State
-  const [currentStep, setCurrentStep] = useState('home'); // 'home' | 'catalog' | 'detail' | 'tickets' | 'passengers' | 'seats' | 'addons' | 'checkout' | 'confirmation' | 'my-tickets'
+  const [currentStep, setCurrentStep] = useState('home'); // 'home' | 'catalog' | 'detail' | 'tickets' | 'passengers' | 'addons' | 'checkout' | 'confirmation' | 'my-tickets'
   
   // Selection State
   const [selectedEvent, setSelectedEvent] = useState(MOCK_EVENTS[0]);
-  const [selectedTicket, setSelectedTicket] = useState(MOCK_EVENTS[0].tickets[0]);
-  const [ticketQuantity, setTicketQuantity] = useState(1);
-  
+
+  // Per-category ticket quantities: { [tierId]: number }
+  const [ticketQuantities, setTicketQuantities] = useState(() => {
+    const initial = {};
+    if (MOCK_EVENTS[0]?.tickets) {
+      MOCK_EVENTS[0].tickets.forEach((t, idx) => {
+        initial[t.id] = idx === 0 ? 1 : 0;
+      });
+    }
+    return initial;
+  });
+
+  // Derived total ticket count
+  const ticketQuantity = useMemo(() => {
+    return Object.values(ticketQuantities).reduce((sum, q) => sum + (Number(q) || 0), 0);
+  }, [ticketQuantities]);
+
+  // Primary selected ticket tier for backward compatibility
+  const selectedTicket = useMemo(() => {
+    if (!selectedEvent?.tickets) return null;
+    const activeTierId = Object.keys(ticketQuantities).find(id => ticketQuantities[id] > 0);
+    return selectedEvent.tickets.find(t => t.id === activeTierId) || selectedEvent.tickets[0];
+  }, [selectedEvent, ticketQuantities]);
+
   // Passenger Form State
   const [useProfileData, setUseProfileData] = useState(false);
   const [passengers, setPassengers] = useState([
@@ -22,48 +43,59 @@ export const BookingProvider = ({ children }) => {
       phone: '',
       email: '',
       address: '',
+      tierId: MOCK_EVENTS[0]?.tickets[0]?.id || '',
+      tierName: MOCK_EVENTS[0]?.tickets[0]?.name || '',
+      tierPrice: MOCK_EVENTS[0]?.tickets[0]?.price || 0,
+      jerseySize: 'M',
     }
   ]);
 
-  // Synchronize passengers array size with ticketQuantity
+  // Synchronize passengers list dynamically based on chosen ticket categories
   useEffect(() => {
-    setPassengers(prev => {
-      const updated = [...prev];
-      if (ticketQuantity > prev.length) {
-        for (let i = prev.length; i < ticketQuantity; i++) {
-          updated.push({
-            name: '',
-            idType: 'KTP',
-            idNumber: '',
-            phone: '',
-            email: '',
-            address: '',
-          });
-        }
-      } else if (ticketQuantity < prev.length) {
-        return updated.slice(0, ticketQuantity);
-      }
-      return updated;
-    });
-  }, [ticketQuantity]);
+    if (!selectedEvent?.tickets) return;
 
-  // Autofill effect when useProfileData changes
-  useEffect(() => {
-    if (useProfileData) {
-      setPassengers(prev => {
-        const next = [...prev];
-        next[0] = {
-          name: USER_PROFILE.name,
-          idType: USER_PROFILE.idType,
-          idNumber: USER_PROFILE.idNumber,
-          phone: USER_PROFILE.phone,
-          email: USER_PROFILE.email,
-          address: USER_PROFILE.address,
-        };
-        return next;
+    // Generate ordered slots for each ticket purchased
+    const slots = [];
+    selectedEvent.tickets.forEach(tier => {
+      const qty = ticketQuantities[tier.id] || 0;
+      for (let i = 0; i < qty; i++) {
+        slots.push({
+          tierId: tier.id,
+          tierName: tier.name,
+          tierPrice: tier.price
+        });
+      }
+    });
+
+    // If no tickets selected, at least keep 1 placeholder slot of first tier
+    if (slots.length === 0 && selectedEvent.tickets.length > 0) {
+      slots.push({
+        tierId: selectedEvent.tickets[0].id,
+        tierName: selectedEvent.tickets[0].name,
+        tierPrice: selectedEvent.tickets[0].price
       });
     }
-  }, [useProfileData]);
+
+    setPassengers(prev => {
+      return slots.map((slot, idx) => {
+        const existing = prev[idx];
+        const isFirstWithProfile = idx === 0 && useProfileData;
+
+        return {
+          name: isFirstWithProfile ? USER_PROFILE.name : (existing?.name || ''),
+          idType: isFirstWithProfile ? USER_PROFILE.idType : (existing?.idType || 'KTP'),
+          idNumber: isFirstWithProfile ? USER_PROFILE.idNumber : (existing?.idNumber || ''),
+          phone: isFirstWithProfile ? USER_PROFILE.phone : (existing?.phone || ''),
+          email: isFirstWithProfile ? USER_PROFILE.email : (existing?.email || ''),
+          address: isFirstWithProfile ? USER_PROFILE.address : (existing?.address || ''),
+          tierId: slot.tierId,
+          tierName: slot.tierName,
+          tierPrice: slot.tierPrice,
+          jerseySize: existing?.jerseySize || 'M',
+        };
+      });
+    });
+  }, [ticketQuantities, selectedEvent, useProfileData]);
 
   // Standing/Festival Ticket check
   const isStandingTicket = useMemo(() => {
@@ -73,31 +105,21 @@ export const BookingProvider = ({ children }) => {
            selectedTicket?.id === 'tkt-fest';
   }, [selectedTicket]);
 
-  // Seat Selection State
-  const [selectedSeats, setSelectedSeats] = useState(['A3']);
-
-  // Clear seats if standing/festival ticket selected
-  useEffect(() => {
-    if (isStandingTicket) {
-      setSelectedSeats([]);
-    }
-  }, [isStandingTicket]);
-
-  // Adjust selected seats when ticketQuantity changes
-  useEffect(() => {
-    if (selectedSeats.length > ticketQuantity) {
-      setSelectedSeats(prev => prev.slice(0, ticketQuantity));
-    }
-  }, [ticketQuantity, selectedSeats.length]);
+  // Seat Selection State (kept for legacy references)
+  const [selectedSeats, setSelectedSeats] = useState([]);
 
   // Add-ons State
   const [selectedAddOns, setSelectedAddOns] = useState([]); // array of addon ids
   const [selectedTrain, setSelectedTrain] = useState(null); // train schedule object
   const [trainSearchParams, setTrainSearchParams] = useState({
     origin: 'Gambir (GMR)',
-    destination: 'Yogyakarta (YK)',
-    date: '2026-07-24',
-    passengers: 1
+    destination: 'Semarang Tawang (SMT)',
+    departureDate: '2027-04-16',
+    returnDate: '2027-04-18',
+    isRoundTrip: false,
+    adults: 1,
+    children: 0,
+    hasSearched: false
   });
 
   // Completed booking history (for My Tickets tab & dashboard)
@@ -105,63 +127,116 @@ export const BookingProvider = ({ children }) => {
   const [latestBooking, setLatestBooking] = useState(null);
 
   // Active Bottom Nav Tab
-  const [activeBottomNav, setActiveBottomNav] = useState('Home'); // 'Home' | 'Train' | 'My Tickets' | 'Promotion' | 'Account'
+  const [activeBottomNav, setActiveBottomNav] = useState('Home');
 
   // Calculations
   const calculations = useMemo(() => {
-    const basePrice = selectedTicket ? selectedTicket.price * ticketQuantity : 0;
-    const seatPrice = 0; // Seat selection included in event ticket tier
+    let basePrice = 0;
+    let totalAdminFee = 0;
+
+    if (selectedEvent?.tickets) {
+      selectedEvent.tickets.forEach(tier => {
+        const qty = ticketQuantities[tier.id] || 0;
+        if (qty > 0) {
+          basePrice += tier.price * qty;
+          const isOver110k = tier.price > 110000;
+          const feePerTicket = isOver110k ? Math.round(tier.price * 0.03) : 7000;
+          totalAdminFee += feePerTicket * qty;
+        }
+      });
+    }
+
+    const effectiveQty = Math.max(1, ticketQuantity);
 
     // Calculate non-train addons
     let addOnsPrice = 0;
     selectedAddOns.forEach(addonId => {
       const addon = MOCK_ADDONS.find(a => a.id === addonId);
       if (addon && addon.price) {
-        addOnsPrice += addon.price * ticketQuantity;
+        addOnsPrice += addon.price * effectiveQty;
       }
     });
 
     // Add train price if selected (with 5% discount)
     let trainPrice = 0;
     if (selectedAddOns.includes('addon-train') && selectedTrain) {
-      trainPrice = selectedTrain.discountedPrice * ticketQuantity;
+      const trainMultiplier = trainSearchParams.isRoundTrip ? 2 : 1;
+      const passengerCount = (trainSearchParams.adults || effectiveQty);
+      trainPrice = selectedTrain.discountedPrice * passengerCount * trainMultiplier;
     }
 
     const totalAddOnPrice = addOnsPrice + trainPrice;
     const taxableAmount = basePrice + totalAddOnPrice;
     const tax = Math.round(taxableAmount * 0.11); // 11% Tax
-    
-    // Admin fee calculation:
-    // IDR 7,000 if ticket price <= IDR 110,000, or 3% of ticket price if > IDR 110,000
-    const ticketPrice = selectedTicket ? selectedTicket.price : 0;
-    const isOver110k = ticketPrice > 110000;
-    const adminFeePerTicket = isOver110k ? Math.round(ticketPrice * 0.03) : 7000;
-    const adminFee = adminFeePerTicket * ticketQuantity;
-
-    const totalPrice = basePrice + seatPrice + totalAddOnPrice + tax + adminFee;
+    const totalPrice = basePrice + totalAddOnPrice + tax + totalAdminFee;
 
     return {
       basePrice,
-      seatPrice,
       addOnPrice: totalAddOnPrice,
       regularAddonsPrice: addOnsPrice,
       trainPrice,
       tax,
-      adminFee,
-      adminFeePerTicket,
-      isOver110k,
+      adminFee: totalAdminFee,
       totalPrice
     };
-  }, [selectedTicket, ticketQuantity, selectedAddOns, selectedTrain]);
+  }, [selectedEvent, ticketQuantities, ticketQuantity, selectedAddOns, selectedTrain, trainSearchParams]);
+
+  // Stepper handlers per tier
+  const incrementTier = (tierId) => {
+    if (ticketQuantity >= 5) return;
+    setTicketQuantities(prev => ({
+      ...prev,
+      [tierId]: (prev[tierId] || 0) + 1
+    }));
+  };
+
+  const decrementTier = (tierId) => {
+    if (!ticketQuantities[tierId] || ticketQuantities[tierId] <= 0) return;
+    setTicketQuantities(prev => ({
+      ...prev,
+      [tierId]: Math.max(0, prev[tierId] - 1)
+    }));
+  };
+
+  const setTierQuantity = (tierId, qty) => {
+    const currentOthers = Object.keys(ticketQuantities)
+      .filter(id => id !== tierId)
+      .reduce((sum, id) => sum + (ticketQuantities[id] || 0), 0);
+    const clamped = Math.max(0, Math.min(5 - currentOthers, qty));
+    setTicketQuantities(prev => ({
+      ...prev,
+      [tierId]: clamped
+    }));
+  };
 
   // Helper actions
   const selectEvent = (event) => {
     setSelectedEvent(event);
-    setSelectedTicket(event.tickets[0] || null);
-    setSelectedSeats(['A3']);
+    const initial = {};
+    if (event.tickets) {
+      event.tickets.forEach((t, idx) => {
+        initial[t.id] = idx === 0 ? 1 : 0;
+      });
+    }
+    setTicketQuantities(initial);
+    setSelectedSeats([]);
     setSelectedAddOns([]);
     setSelectedTrain(null);
+    setTrainSearchParams(prev => ({
+      ...prev,
+      destination: event.city.includes('Semarang') ? 'Semarang Tawang (SMT)' :
+                   event.city.includes('Yogya') ? 'Yogyakarta (YK)' :
+                   event.city.includes('Bandung') ? 'Bandung (BD)' : 'Gambir (GMR)',
+      hasSearched: false
+    }));
     setCurrentStep('detail');
+  };
+
+  const setSelectedTicketDirect = (tier) => {
+    setTicketQuantities(prev => ({
+      ...prev,
+      [tier.id]: prev[tier.id] && prev[tier.id] > 0 ? prev[tier.id] : 1
+    }));
   };
 
   const toggleAddOn = (addonId) => {
@@ -180,28 +255,22 @@ export const BookingProvider = ({ children }) => {
   const updatePassenger = (index, field, value) => {
     setPassengers(prev => {
       const updated = [...prev];
-      updated[index] = { ...updated[index], [field]: value };
+      if (updated[index]) {
+        updated[index] = { ...updated[index], [field]: value };
+      }
       return updated;
-    });
-  };
-
-  const toggleSeat = (seatId) => {
-    setSelectedSeats(prev => {
-      if (prev.includes(seatId)) {
-        return prev.filter(s => s !== seatId);
-      }
-      if (prev.length < ticketQuantity) {
-        return [...prev, seatId].sort();
-      } else {
-        // Replace last chosen seat if at capacity
-        const next = [...prev.slice(0, ticketQuantity - 1), seatId];
-        return next.sort();
-      }
     });
   };
 
   const completeCheckout = (paymentMethod = 'KAIPay') => {
     const bookingRef = `KAI-EVT-${Math.floor(10000 + Math.random() * 90000)}`;
+    
+    // Categorize tickets bought
+    const purchasedTiersList = selectedEvent.tickets
+      ?.filter(t => (ticketQuantities[t.id] || 0) > 0)
+      ?.map(t => `${ticketQuantities[t.id]}x ${t.name}`)
+      ?.join(', ') || 'Reguler';
+
     const newTicket = {
       id: bookingRef,
       eventTitle: selectedEvent.title,
@@ -212,9 +281,9 @@ export const BookingProvider = ({ children }) => {
       city: selectedEvent.city,
       passengerName: passengers[0]?.name || USER_PROFILE.name,
       allPassengers: passengers,
-      ticketType: selectedTicket?.name || 'Reguler',
-      seatNumber: isStandingTicket ? 'Festival (Standing)' : (selectedSeats.length > 0 ? selectedSeats.join(', ') : 'Bebas Pilih Kursi'),
-      quantity: ticketQuantity,
+      ticketType: purchasedTiersList,
+      seatNumber: 'Numbered Seating (Dikirimkan H-3 via WhatsApp & Email)',
+      quantity: Math.max(1, ticketQuantity),
       totalPrice: calculations.totalPrice,
       selectedAddOns: selectedAddOns.map(id => MOCK_ADDONS.find(a => a.id === id)?.name).filter(Boolean),
       selectedTrain: selectedTrain,
@@ -231,13 +300,29 @@ export const BookingProvider = ({ children }) => {
 
   const resetBooking = () => {
     setSelectedEvent(MOCK_EVENTS[0]);
-    setSelectedTicket(MOCK_EVENTS[0].tickets[0]);
-    setTicketQuantity(1);
-    setSelectedSeats(['A3']);
+    const initial = {};
+    if (MOCK_EVENTS[0]?.tickets) {
+      MOCK_EVENTS[0].tickets.forEach((t, idx) => {
+        initial[t.id] = idx === 0 ? 1 : 0;
+      });
+    }
+    setTicketQuantities(initial);
+    setSelectedSeats([]);
     setSelectedAddOns([]);
     setSelectedTrain(null);
     setUseProfileData(false);
-    setPassengers([{ name: '', idType: 'KTP', idNumber: '', phone: '', email: '', address: '' }]);
+    setPassengers([{
+      name: '',
+      idType: 'KTP',
+      idNumber: '',
+      phone: '',
+      email: '',
+      address: '',
+      tierId: MOCK_EVENTS[0]?.tickets[0]?.id || '',
+      tierName: MOCK_EVENTS[0]?.tickets[0]?.name || '',
+      tierPrice: MOCK_EVENTS[0]?.tickets[0]?.price || 0,
+      jerseySize: 'M'
+    }]);
     setCurrentStep('catalog');
   };
 
@@ -252,17 +337,19 @@ export const BookingProvider = ({ children }) => {
         setSelectedEvent,
         selectEvent,
         selectedTicket,
-        setSelectedTicket,
+        setSelectedTicket: setSelectedTicketDirect,
+        ticketQuantities,
+        setTierQuantity,
+        incrementTier,
+        decrementTier,
+        ticketQuantity,
         isStandingTicket,
         USER_PROFILE,
-        ticketQuantity,
-        setTicketQuantity,
         useProfileData,
         setUseProfileData,
         passengers,
         updatePassenger,
         selectedSeats,
-        toggleSeat,
         selectedAddOns,
         toggleAddOn,
         selectedTrain,

@@ -52,8 +52,8 @@ export const CheckoutPage = () => {
       <Navbar
         title="Ringkasan Pembayaran"
         subtitle="Konfirmasi & Pembayaran Tiket"
-        stepNumber={isStandingTicket ? 4 : 5}
-        totalSteps={isStandingTicket ? 5 : 6}
+        stepNumber={4}
+        totalSteps={5}
         showBack={true}
         onBack={() => setCurrentStep('addons')}
       />
@@ -84,6 +84,33 @@ export const CheckoutPage = () => {
           </div>
         </div>
 
+        {/* Passenger & Jersey Summary Card */}
+        <div className="bg-white rounded-2xl p-3.5 border border-slate-200 shadow-2xs space-y-2">
+          <div className="flex items-center justify-between pb-1.5 border-b border-slate-100">
+            <h3 className="font-bold text-xs text-slate-900 uppercase tracking-wider">
+              Data Peserta & Jersey ({passengers.length} Orang)
+            </h3>
+            <span className="text-[10px] text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded-full font-bold">
+              Tervalidasi
+            </span>
+          </div>
+          <div className="space-y-1.5">
+            {passengers.map((p, i) => (
+              <div key={i} className="flex items-center justify-between text-xs py-1 px-2 rounded-lg bg-slate-50 border border-slate-100">
+                <div>
+                  <span className="font-bold text-slate-800">{p.name || `Penumpang ${i + 1}`}</span>
+                  <span className="text-[10px] text-slate-400 block">{p.tierName || 'Tiket'}</span>
+                </div>
+                <div className="text-right">
+                  <span className="text-[10px] font-bold bg-blue-100 text-kai-blue px-2 py-0.5 rounded-md">
+                    Jersey: {p.jerseySize || 'M'}
+                  </span>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+
         {/* Detailed Itemized Price Calculation */}
         <div className="bg-white rounded-2xl p-4 border border-slate-200 shadow-2xs space-y-3">
           <h3 className="font-bold text-xs text-slate-900 uppercase tracking-wider pb-2 border-b border-slate-100">
@@ -96,24 +123,22 @@ export const CheckoutPage = () => {
               <div>
                 <span className="font-medium">Subtotal Tiket Event</span>
                 <div className="text-[10px] text-slate-400">
-                  {ticketQuantity}x {selectedTicket?.name} ({formatIDR(selectedTicket?.price)})
+                  {ticketQuantity} tiket terkonfirmasi
                 </div>
               </div>
               <span className="font-semibold">{formatIDR(calculations.basePrice)}</span>
             </div>
 
-            {/* Selected Seats info */}
-            {!isStandingTicket && selectedSeats && selectedSeats.length > 0 && (
-              <div className="flex items-center justify-between text-slate-700">
-                <div>
-                  <span className="font-medium">Reservasi Nomor Kursi</span>
-                  <div className="text-[10px] text-slate-400">
-                    Kursi: {selectedSeats.join(', ')}
-                  </div>
+            {/* Numbered Seating Policy info */}
+            <div className="flex items-center justify-between text-slate-700">
+              <div>
+                <span className="font-medium">Alokasi Tempat Duduk</span>
+                <div className="text-[10px] text-slate-400">
+                  Numbered Seating (Dikirimkan H-3 Acara)
                 </div>
-                <span className="font-semibold text-emerald-600">Termasuk</span>
               </div>
-            )}
+              <span className="font-semibold text-emerald-600">Termasuk</span>
+            </div>
 
             {/* Add-ons breakdown */}
             {calculations.regularAddonsPrice > 0 && (
