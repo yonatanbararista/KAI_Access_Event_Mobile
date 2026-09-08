@@ -53,6 +53,7 @@ export function PortalSidebar({ isCollapsed, setIsCollapsed, isMobileOpen, setIs
       icon: Calendar,
       children: [
         { id: 'events-all', label: 'All Events' },
+        { id: 'events-detail', label: 'Event Detail' },
         { id: 'events-create', label: 'Create Event' },
       ],
     },

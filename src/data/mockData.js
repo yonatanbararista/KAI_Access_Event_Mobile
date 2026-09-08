@@ -407,6 +407,212 @@ export const MOCK_TRAIN_SCHEDULES = [
     discountPercent: 5,
     discountedPrice: 152000,
     availableSeats: 28
+  },
+  // RETURN TRIP SCHEDULES (Kereta Pulang)
+  {
+    id: "trn-ret-01",
+    isReturn: true,
+    trainName: "Argo Bromo Anggrek (Return)",
+    trainNumber: "KA 1",
+    trainClass: "Eksekutif Luxury",
+    origin: "Semarang Tawang (SMT)",
+    destination: "Gambir (GMR)",
+    departure: "16:00",
+    arrival: "21:15",
+    duration: "5j 15m",
+    originalPrice: 500000,
+    discountPercent: 5,
+    discountedPrice: 475000,
+    availableSeats: 16
+  },
+  {
+    id: "trn-ret-02",
+    isReturn: true,
+    trainName: "Argo Muria (Return)",
+    trainNumber: "KA 13",
+    trainClass: "Eksekutif",
+    origin: "Semarang Tawang (SMT)",
+    destination: "Gambir (GMR)",
+    departure: "18:00",
+    arrival: "23:15",
+    duration: "5j 15m",
+    originalPrice: 400000,
+    discountPercent: 5,
+    discountedPrice: 380000,
+    availableSeats: 24
+  },
+  {
+    id: "trn-ret-03",
+    isReturn: true,
+    trainName: "Tawang Jaya Premium (Return)",
+    trainNumber: "KA 161",
+    trainClass: "Ekonomi Premium",
+    origin: "Semarang Tawang (SMT)",
+    destination: "Pasar Senen (PSE)",
+    departure: "20:45",
+    arrival: "03:00",
+    duration: "6j 15m",
+    originalPrice: 260000,
+    discountPercent: 5,
+    discountedPrice: 247000,
+    availableSeats: 40
+  },
+  {
+    id: "trn-ret-04",
+    isReturn: true,
+    trainName: "Taksaka (Return)",
+    trainNumber: "KA 67",
+    trainClass: "Eksekutif",
+    origin: "Yogyakarta (YK)",
+    destination: "Gambir (GMR)",
+    departure: "19:10",
+    arrival: "01:30",
+    duration: "6j 20m",
+    originalPrice: 450000,
+    discountPercent: 5,
+    discountedPrice: 427500,
+    availableSeats: 22
+  }
+];
+
+export const MOCK_RENTAL_VEHICLES = [
+  {
+    id: "rent-car-1",
+    category: "Mobil",
+    name: "Toyota All New Avanza",
+    transmission: "Matic / Manual",
+    seats: "7 Kursi",
+    features: "AC Double Blower, Bluetooth Audio, Bagasi Luas",
+    partner: "TRAC Astra (Mitra Resmi KAI)",
+    image: "https://images.unsplash.com/photo-1549399542-7e3f8b79c341?q=80&w=400&auto=format&fit=crop",
+    voucherDiscount: "Kupon Diskon Senilai Rp 100.000",
+    pickupNote: "Unit diserahterimakan langsung di Stasiun Kedatangan"
+  },
+  {
+    id: "rent-car-2",
+    category: "Mobil",
+    name: "Toyota Kijang Innova Zenix",
+    transmission: "Matic",
+    seats: "7 Kursi",
+    features: "Captain Seat, Sunroof, Kenyamanan Maksimal",
+    partner: "KAI Rental Mitra Prima",
+    image: "https://images.unsplash.com/photo-1503376780353-7e6692767b70?q=80&w=400&auto=format&fit=crop",
+    voucherDiscount: "Kupon Diskon Senilai Rp 100.000",
+    pickupNote: "Unit diserahterimakan langsung di Stasiun Kedatangan"
+  },
+  {
+    id: "rent-car-3",
+    category: "Mobil",
+    name: "Honda All New Brio",
+    transmission: "Matic",
+    seats: "5 Kursi",
+    features: "Irit Bahan Bakar, Praktis, Lincah Perkotaan",
+    partner: "TRAC Astra (Mitra Resmi KAI)",
+    image: "https://images.unsplash.com/photo-1552519507-da3b142c6e3d?q=80&w=400&auto=format&fit=crop",
+    voucherDiscount: "Kupon Diskon Senilai Rp 100.000",
+    pickupNote: "Unit diserahterimakan langsung di Stasiun Kedatangan"
+  },
+  {
+    id: "rent-moto-1",
+    category: "Motor",
+    name: "Yamaha NMAX 155 Connected",
+    transmission: "Matic",
+    seats: "2 Kursi",
+    features: "2 Helm SNI, Jas Hujan, Holder HP, Bagasi Besar",
+    partner: "KAI MotoRent Station",
+    image: "https://images.unsplash.com/photo-1558981806-ec527fa84c39?q=80&w=400&auto=format&fit=crop",
+    voucherDiscount: "Kupon Diskon Senilai Rp 100.000",
+    pickupNote: "Unit diserahterimakan langsung di Stasiun Kedatangan"
+  },
+  {
+    id: "rent-moto-2",
+    category: "Motor",
+    name: "Honda PCX 160",
+    transmission: "Matic",
+    seats: "2 Kursi",
+    features: "2 Helm SNI, Smart Key, Jas Hujan, USB Charger",
+    partner: "KAI MotoRent Station",
+    image: "https://images.unsplash.com/photo-1568772585407-9361f9bf3a87?q=80&w=400&auto=format&fit=crop",
+    voucherDiscount: "Kupon Diskon Senilai Rp 100.000",
+    pickupNote: "Unit diserahterimakan langsung di Stasiun Kedatangan"
+  },
+  {
+    id: "rent-moto-3",
+    category: "Motor",
+    name: "Honda BeAT Deluxe",
+    transmission: "Matic",
+    seats: "2 Kursi",
+    features: "2 Helm SNI, Jas Hujan, Sangat Irit & Ringan",
+    partner: "KAI MotoRent Station",
+    image: "https://images.unsplash.com/photo-1599819811279-d5ad9cccf838?q=80&w=400&auto=format&fit=crop",
+    voucherDiscount: "Kupon Diskon Senilai Rp 100.000",
+    pickupNote: "Unit diserahterimakan langsung di Stasiun Kedatangan"
+  }
+];
+
+export const MOCK_HOTELS = [
+  {
+    id: "htl-01",
+    name: "Hotel Santika Premiere Semarang",
+    stars: 4,
+    rating: 4.8,
+    reviews: 1420,
+    distanceVenue: "1.2 km dari Venue Event",
+    distanceStation: "2.1 km dari Stasiun Semarang Tawang",
+    address: "Jl. Pandanaran No. 116-120, Semarang",
+    image: "https://images.unsplash.com/photo-1566073771259-6a8506099945?q=80&w=600&auto=format&fit=crop",
+    badge: "Mitra Pilihan KAI",
+    rooms: [
+      { id: "rm-1", name: "Deluxe Twin Room (Include Breakfast)", price: 450000, bed: "2 Single Bed", maxGuests: 2 },
+      { id: "rm-2", name: "Executive King Room (Include Breakfast)", price: 650000, bed: "1 King Bed", maxGuests: 2 }
+    ]
+  },
+  {
+    id: "htl-02",
+    name: "PO Hotel & Convention Semarang",
+    stars: 5,
+    rating: 4.9,
+    reviews: 2150,
+    distanceVenue: "850 m dari Venue Event",
+    distanceStation: "2.5 km dari Stasiun Semarang Tawang",
+    address: "Jl. Pemuda No. 118, Sekayu, Semarang",
+    image: "https://images.unsplash.com/photo-1582719508461-905c673771fd?q=80&w=600&auto=format&fit=crop",
+    badge: "Luxury Partner KAI",
+    rooms: [
+      { id: "rm-3", name: "Superior King Room (Include Breakfast)", price: 680000, bed: "1 King Bed", maxGuests: 2 },
+      { id: "rm-4", name: "Suite Room with Bathtub", price: 1150000, bed: "1 Super King Bed", maxGuests: 2 }
+    ]
+  },
+  {
+    id: "htl-03",
+    name: "KAI Living Transit Hotel",
+    stars: 3,
+    rating: 4.7,
+    reviews: 890,
+    distanceVenue: "2.4 km dari Venue Event",
+    distanceStation: "0 m (Terintegrasi Langsung Stasiun Tawang)",
+    address: "Kompleks Stasiun Semarang Tawang, Semarang",
+    image: "https://images.unsplash.com/photo-1590490360182-c33d57733427?q=80&w=600&auto=format&fit=crop",
+    badge: "Afiliasi Resmi KAI",
+    rooms: [
+      { id: "rm-5", name: "Standard Transit Room (Include Breakfast)", price: 320000, bed: "1 Queen Bed", maxGuests: 2 },
+      { id: "rm-6", name: "Family Transit Room (Include Breakfast)", price: 480000, bed: "1 Queen + 1 Single Bed", maxGuests: 3 }
+    ]
+  },
+  {
+    id: "htl-04",
+    name: "Ibis Budget Semarang Tawang",
+    stars: 3,
+    rating: 4.6,
+    reviews: 730,
+    distanceVenue: "2.5 km dari Venue Event",
+    distanceStation: "300 m dari Stasiun Semarang Tawang",
+    address: "Jl. Kapten Pierre Tendean No. 21, Semarang",
+    image: "https://images.unsplash.com/photo-1618773928121-c32242e63f39?q=80&w=600&auto=format&fit=crop",
+    badge: "Harga Terbaik",
+    rooms: [
+      { id: "rm-7", name: "Standard Queen Bed Room", price: 260000, bed: "1 Queen Bed", maxGuests: 2 }
+    ]
   }
 ];
 
@@ -415,9 +621,28 @@ export const MOCK_ADDONS = [
     id: "addon-train",
     name: "Transportasi Kereta Api Menuju Event",
     category: "Transportasi",
-    description: "Perjalanan nyaman ke kota tujuan event dengan diskon spesial 5% untuk semua kelas kereta KAI.",
-    badge: "Diskon 5%",
+    description: "Perjalanan nyaman ke kota tujuan event dengan diskon spesial 5% untuk semua kelas kereta KAI. Jadwal terpisah per hari keberangkatan.",
+    badge: "Diskon 5% Event",
     isTrainSpecial: true,
+  },
+  {
+    id: "addon-rental",
+    name: "Car / Motor Rental (Mitra Pilihan KAI)",
+    category: "Transportasi & Sewa Unit",
+    description: "Sewa mobil/motor mitra resmi KAI (TRAC / KAI Rental Mitra) dengan sistem klaim kupon/voucher seharga Rp 50.000. Serah terima unit langsung di stasiun kedatangan.",
+    price: 50000,
+    badge: "Kupon Rp 50K",
+    isRentalSpecial: true,
+    image: "https://images.unsplash.com/photo-1549399542-7e3f8b79c341?q=80&w=400&auto=format&fit=crop"
+  },
+  {
+    id: "addon-hotel",
+    name: "Hotel Pilihan & Afiliasi KAI",
+    category: "Akomodasi & Penginapan",
+    description: "Hotel mitra dan afiliasi resmi KAI dengan lokasi strategis dekat venue dan stasiun. Sistem pemesanan langsung terintegrasi dengan tiket Anda.",
+    badge: "Pemesanan Langsung",
+    isHotelSpecial: true,
+    image: "https://images.unsplash.com/photo-1566073771259-6a8506099945?q=80&w=400&auto=format&fit=crop"
   },
   {
     id: "addon-lokocafe",
@@ -439,7 +664,7 @@ export const MOCK_ADDONS = [
   },
   {
     id: "addon-merch",
-    name: "Claim Exclusive Merch",
+    name: "Claim Exclusive Merch (Paket Aksesoris)",
     category: "Merchandise",
     description: "T-shirt resmi edisi kolektor dan paket merchandise eksklusif official event.",
     price: 120000,

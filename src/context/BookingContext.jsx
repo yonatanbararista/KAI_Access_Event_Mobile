@@ -110,7 +110,11 @@ export const BookingProvider = ({ children }) => {
 
   // Add-ons State
   const [selectedAddOns, setSelectedAddOns] = useState([]); // array of addon ids
-  const [selectedTrain, setSelectedTrain] = useState(null); // train schedule object
+  const [selectedTrain, setSelectedTrain] = useState(null); // outbound train schedule
+  const [selectedReturnTrain, setSelectedReturnTrain] = useState(null); // return train schedule
+  const [selectedRental, setSelectedRental] = useState(null); // { vehicle, category, station, voucherCode, price }
+  const [selectedHotel, setSelectedHotel] = useState(null); // { hotel, room, nights, checkIn, checkOut, pricePerNight, totalPrice }
+
   const [trainSearchParams, setTrainSearchParams] = useState({
     origin: 'Gambir (GMR)',
     destination: 'Semarang Tawang (SMT)',
@@ -148,24 +152,48 @@ export const BookingProvider = ({ children }) => {
 
     const effectiveQty = Math.max(1, ticketQuantity);
 
-    // Calculate non-train addons
-    let addOnsPrice = 0;
+    // Calculate regular addons (F&B, Shuttle, Merch)
+    let regularAddonsPrice = 0;
+    const specialAddonIds = ['addon-train', 'addon-rental', 'addon-hotel'];
     selectedAddOns.forEach(addonId => {
-      const addon = MOCK_ADDONS.find(a => a.id === addonId);
-      if (addon && addon.price) {
-        addOnsPrice += addon.price * effectiveQty;
+      if (!specialAddonIds.includes(addonId)) {
+        const addon = MOCK_ADDONS.find(a => a.id === addonId);
+        if (addon && addon.price) {
+          regularAddonsPrice += addon.price * effectiveQty;
+        }
       }
     });
 
-    // Add train price if selected (with 5% discount)
+    // 1. Train Price (Outbound + Return if selected, with 5% discount)
     let trainPrice = 0;
-    if (selectedAddOns.includes('addon-train') && selectedTrain) {
-      const trainMultiplier = trainSearchParams.isRoundTrip ? 2 : 1;
-      const passengerCount = (trainSearchParams.adults || effectiveQty);
-      trainPrice = selectedTrain.discountedPrice * passengerCount * trainMultiplier;
+    const passengerCount = (trainSearchParams.adults || effectiveQty);
+    if (selectedAddOns.includes('addon-train')) {
+      if (selectedTrain) {
+        trainPrice += selectedTrain.discountedPrice * passengerCount;
+      }
+      if (trainSearchParams.isRoundTrip) {
+        if (selectedReturnTrain) {
+          trainPrice += selectedReturnTrain.discountedPrice * passengerCount;
+        } else if (selectedTrain) {
+          // fallback if return train not yet picked
+          trainPrice += selectedTrain.discountedPrice * passengerCount;
+        }
+      }
     }
 
-    const totalAddOnPrice = addOnsPrice + trainPrice;
+    // 2. Rental Mobil / Motor Voucher Price (Rp 50.000)
+    let rentalPrice = 0;
+    if (selectedAddOns.includes('addon-rental')) {
+      rentalPrice = 50000; // Flat voucher claim price
+    }
+
+    // 3. Hotel Direct Booking Price
+    let hotelPrice = 0;
+    if (selectedAddOns.includes('addon-hotel') && selectedHotel) {
+      hotelPrice = selectedHotel.totalPrice || (selectedHotel.pricePerNight * (selectedHotel.nights || 1));
+    }
+
+    const totalAddOnPrice = regularAddonsPrice + trainPrice + rentalPrice + hotelPrice;
     const taxableAmount = basePrice + totalAddOnPrice;
     const tax = Math.round(taxableAmount * 0.11); // 11% Tax
     const totalPrice = basePrice + totalAddOnPrice + tax + totalAdminFee;
@@ -173,13 +201,25 @@ export const BookingProvider = ({ children }) => {
     return {
       basePrice,
       addOnPrice: totalAddOnPrice,
-      regularAddonsPrice: addOnsPrice,
+      regularAddonsPrice,
       trainPrice,
+      rentalPrice,
+      hotelPrice,
       tax,
       adminFee: totalAdminFee,
       totalPrice
     };
-  }, [selectedEvent, ticketQuantities, ticketQuantity, selectedAddOns, selectedTrain, trainSearchParams]);
+  }, [
+    selectedEvent,
+    ticketQuantities,
+    ticketQuantity,
+    selectedAddOns,
+    selectedTrain,
+    selectedReturnTrain,
+    selectedRental,
+    selectedHotel,
+    trainSearchParams
+  ]);
 
   // Stepper handlers per tier
   const incrementTier = (tierId) => {
@@ -244,6 +284,11 @@ export const BookingProvider = ({ children }) => {
       if (prev.includes(addonId)) {
         if (addonId === 'addon-train') {
           setSelectedTrain(null);
+          setSelectedReturnTrain(null);
+        } else if (addonId === 'addon-rental') {
+          setSelectedRental(null);
+        } else if (addonId === 'addon-hotel') {
+          setSelectedHotel(null);
         }
         return prev.filter(id => id !== addonId);
       } else {
@@ -286,7 +331,10 @@ export const BookingProvider = ({ children }) => {
       quantity: Math.max(1, ticketQuantity),
       totalPrice: calculations.totalPrice,
       selectedAddOns: selectedAddOns.map(id => MOCK_ADDONS.find(a => a.id === id)?.name).filter(Boolean),
-      selectedTrain: selectedTrain,
+      selectedTrain,
+      selectedReturnTrain,
+      selectedRental,
+      selectedHotel,
       status: 'Upcoming',
       qrCode: bookingRef,
       purchaseDate: new Date().toLocaleDateString('id-ID', { day: 'numeric', month: 'short', year: 'numeric' }),
@@ -310,6 +358,9 @@ export const BookingProvider = ({ children }) => {
     setSelectedSeats([]);
     setSelectedAddOns([]);
     setSelectedTrain(null);
+    setSelectedReturnTrain(null);
+    setSelectedRental(null);
+    setSelectedHotel(null);
     setUseProfileData(false);
     setPassengers([{
       name: '',
@@ -351,9 +402,16 @@ export const BookingProvider = ({ children }) => {
         updatePassenger,
         selectedSeats,
         selectedAddOns,
+        setSelectedAddOns,
         toggleAddOn,
         selectedTrain,
         setSelectedTrain,
+        selectedReturnTrain,
+        setSelectedReturnTrain,
+        selectedRental,
+        setSelectedRental,
+        selectedHotel,
+        setSelectedHotel,
         trainSearchParams,
         setTrainSearchParams,
         calculations,

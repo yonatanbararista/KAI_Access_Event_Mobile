@@ -12,6 +12,9 @@ export const BookingSummarySidebar = ({ nextLabel = "Lanjutkan", onNext, isNextD
     selectedSeats,
     selectedAddOns,
     selectedTrain,
+    selectedReturnTrain,
+    selectedRental,
+    selectedHotel,
     calculations
   } = useBooking();
 
@@ -60,12 +63,45 @@ export const BookingSummarySidebar = ({ nextLabel = "Lanjutkan", onNext, isNextD
 
           {/* Train transport add-on if chosen */}
           {selectedAddOns.includes('addon-train') && selectedTrain && (
+            <div className="py-1 border-b border-slate-200/60 space-y-0.5">
+              <div className="flex items-center justify-between text-slate-700">
+                <div>
+                  <span className="font-semibold text-kai-blue">Kereta Pergi:</span> {selectedTrain.trainName}
+                  <span className="ml-1.5 text-[9px] bg-red-100 text-red-700 px-1.5 py-0.2 rounded font-bold">-5%</span>
+                </div>
+                <span className="font-medium">{formatIDR(selectedTrain.discountedPrice * (calculations.trainSearchParams?.adults || ticketQuantity))}</span>
+              </div>
+              {selectedReturnTrain && (
+                <div className="flex items-center justify-between text-slate-700">
+                  <div>
+                    <span className="font-semibold text-amber-700">Kereta Pulang:</span> {selectedReturnTrain.trainName}
+                    <span className="ml-1.5 text-[9px] bg-red-100 text-red-700 px-1.5 py-0.2 rounded font-bold">-5%</span>
+                  </div>
+                  <span className="font-medium">{formatIDR(selectedReturnTrain.discountedPrice * (calculations.trainSearchParams?.adults || ticketQuantity))}</span>
+                </div>
+              )}
+            </div>
+          )}
+
+          {/* Car / Motor Rental Voucher */}
+          {selectedAddOns.includes('addon-rental') && (
             <div className="flex items-center justify-between py-1 text-slate-600">
               <div>
-                <span>{selectedTrain.trainName} ({ticketQuantity} org)</span>
-                <span className="ml-1.5 text-[10px] bg-red-100 text-red-700 px-1.5 py-0.5 rounded font-bold">-5%</span>
+                <span>Voucher Rental {selectedRental ? selectedRental.vehicleName : 'Mobil/Motor'}</span>
+                <span className="text-[10px] text-emerald-700 font-semibold ml-1">(Diskon Rp 100K)</span>
               </div>
-              <span className="font-medium">{formatIDR(calculations.trainPrice)}</span>
+              <span className="font-medium">{formatIDR(calculations.rentalPrice || 50000)}</span>
+            </div>
+          )}
+
+          {/* Hotel Direct Booking */}
+          {selectedAddOns.includes('addon-hotel') && selectedHotel && (
+            <div className="flex items-center justify-between py-1 text-slate-600">
+              <div>
+                <span>{selectedHotel.hotelName}</span>
+                <span className="text-[10px] text-slate-400 ml-1">({selectedHotel.nights} malam)</span>
+              </div>
+              <span className="font-medium">{formatIDR(calculations.hotelPrice)}</span>
             </div>
           )}
 

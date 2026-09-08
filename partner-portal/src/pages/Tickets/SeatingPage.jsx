@@ -88,6 +88,29 @@ export function SeatingPage() {
         </p>
       </div>
 
+      {/* Notice Banner: Upload Denah & Informasi Tambahan Dipindahkan ke Detail Event */}
+      <div className="bg-amber-50/80 border border-amber-300/80 rounded-2xl p-3.5 flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs">
+        <div className="flex items-start gap-2.5">
+          <Sparkles className="w-4 h-4 text-amber-600 shrink-0 mt-0.5" />
+          <div>
+            <div className="font-bold text-amber-950">
+              Upload Denah Kursi & Gambar Informasi Acara Telah Dipindahkan ke Detail Event
+            </div>
+            <p className="text-amber-800 text-[11px] mt-0.5">
+              Untuk kemudahan pengelolaan, upload gambar layout denah, rundown, akses gate, dan panduan race pack kini terintegrasi di halaman Detail Event.
+            </p>
+          </div>
+        </div>
+
+        <button
+          onClick={() => setCurrentNav('events-detail')}
+          className="px-3.5 py-1.5 bg-kai-blue hover:bg-blue-700 text-white font-bold text-xs rounded-xl shadow-xs shrink-0 flex items-center justify-center gap-1.5 transition-colors"
+        >
+          <span>Buka di Detail Event</span>
+          <Eye className="w-3.5 h-3.5" />
+        </button>
+      </div>
+
       {/* Navigation Sub-Tabs */}
       <div className="flex items-center gap-2 border-b border-slate-200 pb-3">
         <button

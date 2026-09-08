@@ -27,6 +27,9 @@ export const CheckoutPage = () => {
     selectedSeats,
     selectedAddOns,
     selectedTrain,
+    selectedReturnTrain,
+    selectedRental,
+    selectedHotel,
     calculations,
     completeCheckout,
     setCurrentStep
@@ -144,26 +147,66 @@ export const CheckoutPage = () => {
             {calculations.regularAddonsPrice > 0 && (
               <div className="flex items-center justify-between text-slate-700">
                 <div>
-                  <span className="font-medium">Layanan Tambahan (Add-ons)</span>
+                  <span className="font-medium">Layanan Tambahan (F&B / Merchandise)</span>
                   <div className="text-[10px] text-slate-400">
-                    {selectedAddOns.filter(id => id !== 'addon-train').map(id => MOCK_ADDONS.find(a => a.id === id)?.name).join(', ')}
+                    {selectedAddOns.filter(id => !['addon-train', 'addon-rental', 'addon-hotel'].includes(id)).map(id => MOCK_ADDONS.find(a => a.id === id)?.name).join(', ')}
                   </div>
                 </div>
                 <span className="font-semibold">{formatIDR(calculations.regularAddonsPrice)}</span>
               </div>
             )}
 
-            {/* Train transport if chosen */}
+            {/* Train Outbound transport if chosen */}
             {selectedTrain && (
               <div className="flex items-center justify-between text-slate-700">
                 <div>
-                  <span className="font-medium">Tiket Kereta KAI ({selectedTrain.trainName})</span>
+                  <span className="font-medium">Kereta Pergi: {selectedTrain.trainName}</span>
                   <div className="text-[10px] text-slate-400 flex items-center gap-1">
                     <span>{ticketQuantity} tiket</span>
-                    <span className="text-red-600 font-bold bg-red-50 px-1 rounded">-5% Diskon Event</span>
+                    <span className="text-red-600 font-bold bg-red-50 px-1 rounded">-5% Diskon</span>
                   </div>
                 </div>
-                <span className="font-semibold">{formatIDR(calculations.trainPrice)}</span>
+                <span className="font-semibold">{formatIDR(selectedTrain.discountedPrice * ticketQuantity)}</span>
+              </div>
+            )}
+
+            {/* Train Return transport if chosen */}
+            {selectedReturnTrain && (
+              <div className="flex items-center justify-between text-slate-700">
+                <div>
+                  <span className="font-medium">Kereta Pulang: {selectedReturnTrain.trainName}</span>
+                  <div className="text-[10px] text-slate-400 flex items-center gap-1">
+                    <span>{ticketQuantity} tiket (PP)</span>
+                    <span className="text-red-600 font-bold bg-red-50 px-1 rounded">-5% Diskon</span>
+                  </div>
+                </div>
+                <span className="font-semibold">{formatIDR(selectedReturnTrain.discountedPrice * ticketQuantity)}</span>
+              </div>
+            )}
+
+            {/* Rental Voucher if chosen */}
+            {selectedRental && (
+              <div className="flex items-center justify-between text-slate-700">
+                <div>
+                  <span className="font-medium">Kupon Voucher Rental ({selectedRental.vehicleName})</span>
+                  <div className="text-[10px] text-emerald-700 font-semibold">
+                    Diskon Rp 100K • Serah terima di {selectedRental.pickupStation.split(' ')[1]}
+                  </div>
+                </div>
+                <span className="font-semibold">{formatIDR(selectedRental.claimPrice || 50000)}</span>
+              </div>
+            )}
+
+            {/* Hotel Direct Booking if chosen */}
+            {selectedHotel && (
+              <div className="flex items-center justify-between text-slate-700">
+                <div>
+                  <span className="font-medium">Hotel Mitra: {selectedHotel.hotelName}</span>
+                  <div className="text-[10px] text-slate-400">
+                    {selectedHotel.roomName} • {selectedHotel.nights} Malam
+                  </div>
+                </div>
+                <span className="font-semibold">{formatIDR(selectedHotel.totalPrice)}</span>
               </div>
             )}
 

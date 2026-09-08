@@ -10,7 +10,10 @@ import {
   User, 
   Train, 
   Share2,
-  Sparkles
+  Sparkles,
+  Car,
+  Building2,
+  Tag
 } from 'lucide-react';
 import { useBooking } from '../context/BookingContext';
 
@@ -153,14 +156,14 @@ export const TicketConfirmationPage = () => {
               </div>
             )}
 
-            {/* If train add-on selected */}
+            {/* If outbound train selected */}
             {latestBooking.selectedTrain && (
               <div className="bg-blue-50/80 p-2.5 rounded-xl border border-blue-100 flex items-center justify-between">
                 <div className="flex items-center gap-2">
                   <Train size={16} className="text-kai-blue shrink-0" />
                   <div>
                     <div className="font-bold text-[11px] text-slate-900">
-                      KA {latestBooking.selectedTrain.trainName}
+                      KA Pergi: {latestBooking.selectedTrain.trainName}
                     </div>
                     <div className="text-[10px] text-slate-500">
                       {latestBooking.selectedTrain.origin} → {latestBooking.selectedTrain.destination} ({latestBooking.selectedTrain.departure})
@@ -169,6 +172,66 @@ export const TicketConfirmationPage = () => {
                 </div>
                 <span className="text-[9px] font-bold bg-kai-blue text-white px-1.5 py-0.5 rounded">
                   Diskon 5%
+                </span>
+              </div>
+            )}
+
+            {/* If return train selected */}
+            {latestBooking.selectedReturnTrain && (
+              <div className="bg-amber-50/80 p-2.5 rounded-xl border border-amber-200 flex items-center justify-between">
+                <div className="flex items-center gap-2">
+                  <Train size={16} className="text-amber-600 shrink-0" />
+                  <div>
+                    <div className="font-bold text-[11px] text-slate-900">
+                      KA Pulang: {latestBooking.selectedReturnTrain.trainName}
+                    </div>
+                    <div className="text-[10px] text-slate-500">
+                      {latestBooking.selectedReturnTrain.origin} → {latestBooking.selectedReturnTrain.destination} ({latestBooking.selectedReturnTrain.departure})
+                    </div>
+                  </div>
+                </div>
+                <span className="text-[9px] font-bold bg-amber-600 text-white px-1.5 py-0.5 rounded">
+                  Diskon 5%
+                </span>
+              </div>
+            )}
+
+            {/* If Rental Voucher claimed */}
+            {latestBooking.selectedRental && (
+              <div className="bg-emerald-50/80 p-2.5 rounded-xl border border-emerald-200 flex items-center justify-between">
+                <div className="flex items-center gap-2">
+                  <Car size={16} className="text-emerald-600 shrink-0" />
+                  <div>
+                    <div className="font-bold text-[11px] text-slate-900">
+                      Kupon Rental {latestBooking.selectedRental.vehicleName}
+                    </div>
+                    <div className="text-[10px] text-slate-500">
+                      Serah terima: {latestBooking.selectedRental.pickupStation}
+                    </div>
+                  </div>
+                </div>
+                <span className="text-[9px] font-bold bg-emerald-600 text-white px-1.5 py-0.5 rounded">
+                  Kupon Aktif
+                </span>
+              </div>
+            )}
+
+            {/* If Hotel booked directly */}
+            {latestBooking.selectedHotel && (
+              <div className="bg-indigo-50/80 p-2.5 rounded-xl border border-indigo-200 flex items-center justify-between">
+                <div className="flex items-center gap-2">
+                  <Building2 size={16} className="text-indigo-600 shrink-0" />
+                  <div>
+                    <div className="font-bold text-[11px] text-slate-900">
+                      {latestBooking.selectedHotel.hotelName}
+                    </div>
+                    <div className="text-[10px] text-slate-500">
+                      {latestBooking.selectedHotel.roomName} ({latestBooking.selectedHotel.nights} Malam)
+                    </div>
+                  </div>
+                </div>
+                <span className="text-[9px] font-bold bg-indigo-600 text-white px-1.5 py-0.5 rounded">
+                  Reservasi Mitra
                 </span>
               </div>
             )}

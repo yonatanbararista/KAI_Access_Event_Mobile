@@ -6,6 +6,7 @@ import { PortalLayout } from './components/layout/PortalLayout';
 import { DashboardPage } from './pages/Dashboard/DashboardPage';
 import { AllEventsPage } from './pages/Events/AllEventsPage';
 import { CreateEventPage } from './pages/Events/CreateEventPage';
+import { EventDetailPage } from './pages/Events/EventDetailPage';
 import { TicketTypesPage } from './pages/Tickets/TicketTypesPage';
 import { QuotaPricingPage } from './pages/Tickets/QuotaPricingPage';
 import { SeatingPage } from './pages/Tickets/SeatingPage';
@@ -32,6 +33,8 @@ function PortalRouter() {
       return <DashboardPage />;
     case 'events-all':
       return <AllEventsPage />;
+    case 'events-detail':
+      return <EventDetailPage />;
     case 'events-create':
       return <CreateEventPage />;
     case 'tickets-types':

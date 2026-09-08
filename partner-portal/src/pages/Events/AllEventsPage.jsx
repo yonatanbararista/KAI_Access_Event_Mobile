@@ -123,7 +123,10 @@ export function AllEventsPage() {
               className="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden flex flex-col hover:shadow-md transition-shadow group relative"
             >
               {/* Poster Banner */}
-              <div className="relative h-48 bg-slate-100 overflow-hidden">
+              <div 
+                onClick={() => handleAction(evt.id, 'events-detail')}
+                className="relative h-48 bg-slate-100 overflow-hidden cursor-pointer"
+              >
                 <img
                   src={evt.poster}
                   alt={evt.title}
@@ -149,7 +152,10 @@ export function AllEventsPage() {
                   <div className="text-[11px] font-bold text-kai-orange uppercase tracking-wider">
                     {evt.category}
                   </div>
-                  <h3 className="text-base font-bold text-slate-900 mt-1 line-clamp-1">
+                  <h3 
+                    onClick={() => handleAction(evt.id, 'events-detail')}
+                    className="text-base font-bold text-slate-900 mt-1 line-clamp-1 cursor-pointer hover:text-kai-blue transition-colors"
+                  >
                     {evt.title}
                   </h3>
                   <div className="flex items-center gap-1 text-xs text-slate-500 mt-1 truncate">
@@ -186,6 +192,15 @@ export function AllEventsPage() {
 
                 {/* Action Buttons matching Section 8: View, Edit, Duplicate, Manage Tickets, View Sales, View Attendees */}
                 <div className="pt-2 border-t border-slate-100 flex items-center justify-between gap-1 text-xs">
+                  <button
+                    onClick={() => handleAction(evt.id, 'events-detail')}
+                    className="flex-1 py-1.5 px-2 bg-amber-50 hover:bg-amber-100 text-amber-900 font-bold rounded-lg transition-colors flex items-center justify-center gap-1"
+                    title="Lihat Detail & Upload Denah"
+                  >
+                    <Eye className="w-3.5 h-3.5 text-amber-600" />
+                    <span>Detail</span>
+                  </button>
+
                   <button
                     onClick={() => handleAction(evt.id, 'tickets-types')}
                     className="flex-1 py-1.5 px-2 bg-blue-50 hover:bg-blue-100 text-kai-blue font-bold rounded-lg transition-colors flex items-center justify-center gap-1"
