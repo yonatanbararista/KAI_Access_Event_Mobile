@@ -47,7 +47,8 @@ export function AddOnsManagementPage() {
         { id: 's-3', size: 'L', chestWidth: 52, length: 70, stock: 350, sold: 210, price: 150000, enabled: true },
         { id: 's-4', size: 'XL', chestWidth: 54, length: 72, stock: 180, sold: 95, price: 150000, enabled: true },
         { id: 's-5', size: 'XXL', chestWidth: 56, length: 74, stock: 80, sold: 30, price: 150000, enabled: true },
-      ]
+      ],
+      sizesString: 'S, M, L, XL, XXL'
     },
     {
       id: 'addon-train',
@@ -59,9 +60,10 @@ export function AddOnsManagementPage() {
       stock: 800,
       sold: 340,
       enabled: true,
-      automaticSuggest: true,
+      automaticSuggest: true, // Tombol automatic suggest aktif
       isJersey: false,
-      unitType: 'Tiket Kereta'
+      unitType: 'Tiket Kereta',
+      sizesString: 'Jadwal H-1 Event, Jadwal Hari H (Pagi), Jadwal H+1 Event'
     },
     {
       id: 'addon-rental',
@@ -73,9 +75,10 @@ export function AddOnsManagementPage() {
       stock: 300,
       sold: 115,
       enabled: true,
-      automaticSuggest: true,
+      automaticSuggest: true, // Tombol automatic suggest aktif
       isJersey: false,
-      unitType: 'Voucher Rental'
+      unitType: 'Voucher Rental',
+      sizesString: 'Motor Matic 125cc, Motor Matic 150cc, Mobil 7-Seater'
     },
     {
       id: 'addon-hotel',
@@ -87,9 +90,10 @@ export function AddOnsManagementPage() {
       stock: 150,
       sold: 65,
       enabled: true,
-      automaticSuggest: true,
+      automaticSuggest: true, // Tombol automatic suggest aktif
       isJersey: false,
-      unitType: 'Kamar / Malam'
+      unitType: 'Kamar / Malam',
+      sizesString: 'Transit Standard Room, Superior Double, Deluxe Twin'
     },
     {
       id: 'addon-lokocafe',
@@ -101,9 +105,10 @@ export function AddOnsManagementPage() {
       stock: 500,
       sold: 230,
       enabled: true,
-      automaticSuggest: true,
+      automaticSuggest: true, // Tombol automatic suggest aktif
       isJersey: false,
-      unitType: 'Paket Makanan'
+      unitType: 'Paket Makanan',
+      sizesString: 'Paket Nasi Bogana + Es Kopi, Paket Sei Sapi + Lemon Tea'
     },
     {
       id: 'addon-merch',
@@ -115,9 +120,10 @@ export function AddOnsManagementPage() {
       stock: 250,
       sold: 88,
       enabled: true,
-      automaticSuggest: false,
+      automaticSuggest: true, // Tombol automatic suggest aktif
       isJersey: false,
-      unitType: 'Paket Merch'
+      unitType: 'Paket Merch',
+      sizesString: 'Standard Pack, Collector Edition, Full VIP Merch'
     },
     {
       id: 'addon-shuttle',
@@ -129,9 +135,10 @@ export function AddOnsManagementPage() {
       stock: 400,
       sold: 140,
       enabled: true,
-      automaticSuggest: false,
+      automaticSuggest: true, // Tombol automatic suggest aktif
       isJersey: false,
-      unitType: 'Tiket Shuttle'
+      unitType: 'Tiket Shuttle',
+      sizesString: 'Trip Pagi (07:00), Trip Siang (12:00), Trip Sore (16:00)'
     }
   ]);
 
@@ -204,12 +211,13 @@ export function AddOnsManagementPage() {
       price: addon.price,
       stock: addon.stock,
       description: addon.description,
-      sizesString: addon.sizes ? addon.sizes.map(s => s.size).join(', ') : ''
+      sizesString: addon.sizesString || (addon.sizes ? addon.sizes.map(s => s.size).join(', ') : ''),
+      automaticSuggest: addon.automaticSuggest ?? true
     });
     setIsEditModalOpen(true);
   };
 
-  // Save Edit Add-on (Ukuran, Stok Kuota, Harga Satuan)
+  // Save Edit Add-on (Ukuran, Stok Kuota, Harga Satuan, Automatic Suggest)
   const handleSaveAddon = () => {
     if (!editingAddon) return;
 
@@ -240,12 +248,14 @@ export function AddOnsManagementPage() {
         price: Number(editFormData.price),
         stock: Number(editFormData.stock),
         description: editFormData.description,
-        sizes: updatedSizes
+        sizesString: editFormData.sizesString,
+        sizes: updatedSizes,
+        automaticSuggest: editFormData.automaticSuggest
       };
     }));
 
     setIsEditModalOpen(false);
-    showToast(`Perubahan pada "${editFormData.name}" berhasil disimpan!`);
+    showToast(`Perubahan ukuran, stok kuota & harga pada "${editFormData.name}" berhasil disimpan!`);
   };
 
   // Open Add Size Modal (Jersey)
@@ -398,10 +408,10 @@ export function AddOnsManagementPage() {
                 type="button"
                 onClick={() => handleOpenEditAddon(jerseyItem)}
                 className="flex items-center gap-1 px-3 py-1.5 bg-slate-100 hover:bg-slate-200 text-slate-800 font-bold text-xs rounded-xl transition-colors border border-slate-200 shadow-2xs"
-                title="Ubah Nama, Stok Kuota, dan Harga Satuan"
+                title="Ubah Ukuran, Stok Kuota, dan Harga Satuan"
               >
                 <Edit2 className="w-3.5 h-3.5 text-kai-blue" />
-                <span>Ubah Detail & Stok</span>
+                <span>Ubah Ukuran, Stok & Harga</span>
               </button>
 
               {/* Automatic Suggest Button */}
@@ -567,6 +577,22 @@ export function AddOnsManagementPage() {
                   </div>
                 </div>
 
+                {/* Variant / Size Chips Preview */}
+                {addon.sizesString && (
+                  <div className="p-2.5 bg-slate-50/80 rounded-xl border border-slate-100">
+                    <span className="text-[10px] text-slate-400 font-bold block uppercase mb-1">
+                      Pilihan Ukuran / Varian:
+                    </span>
+                    <div className="flex flex-wrap gap-1">
+                      {addon.sizesString.split(',').map((v, i) => (
+                        <span key={i} className="text-[10px] font-semibold bg-white text-slate-700 px-2 py-0.5 rounded-md border border-slate-200">
+                          {v.trim()}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+                )}
+
                 {/* Action Controls: Edit Button & Automatic Suggest Button */}
                 <div className="pt-2 border-t border-slate-100 space-y-2">
                   <div className="flex items-center gap-2">
@@ -577,7 +603,7 @@ export function AddOnsManagementPage() {
                       className="flex-1 py-1.5 px-2.5 bg-slate-100 hover:bg-slate-200 text-slate-800 font-bold text-xs rounded-xl transition-colors flex items-center justify-center gap-1 border border-slate-200"
                     >
                       <Edit2 className="w-3.5 h-3.5 text-kai-blue" />
-                      <span>Ubah Kuota & Harga</span>
+                      <span>Ubah Ukuran, Stok & Harga</span>
                     </button>
                   </div>
 
@@ -660,24 +686,54 @@ export function AddOnsManagementPage() {
                 </div>
               </div>
 
-              {/* Ukuran / Varian (Jika item memiliki ukuran) */}
-              {editingAddon.isJersey && (
-                <div>
-                  <label className="font-bold text-slate-700 block mb-1">
-                    Daftar Ukuran / Varian (Pisahkan dengan koma)
+              {/* Ukuran / Varian Produk */}
+              <div>
+                <div className="flex items-center justify-between mb-1">
+                  <label className="font-bold text-slate-700">
+                    Pilihan Ukuran / Varian (Pisahkan dengan koma)
                   </label>
-                  <input
-                    type="text"
-                    value={editFormData.sizesString}
-                    onChange={(e) => setEditFormData({ ...editFormData, sizesString: e.target.value })}
-                    placeholder="S, M, L, XL, XXL, 3XL"
-                    className="w-full px-3 py-2 border border-slate-300 rounded-xl font-semibold uppercase focus:border-kai-blue focus:outline-none"
-                  />
-                  <span className="text-[10px] text-slate-400 mt-0.5 block">
-                    Varian ukuran ini akan otomatis muncul pada form pengisian jersey peserta.
+                  <span className="text-[10px] text-kai-blue font-bold">
+                    {editingAddon.isJersey ? 'T-Shirt Sizes' : 'Opsi Varian Produk'}
                   </span>
                 </div>
-              )}
+                <input
+                  type="text"
+                  value={editFormData.sizesString}
+                  onChange={(e) => setEditFormData({ ...editFormData, sizesString: e.target.value })}
+                  placeholder={editingAddon.isJersey ? "S, M, L, XL, XXL, 3XL" : "Varian 1, Varian 2, Varian 3"}
+                  className="w-full px-3 py-2 border border-slate-300 rounded-xl font-semibold uppercase focus:border-kai-blue focus:outline-none"
+                />
+                <span className="text-[10px] text-slate-400 mt-0.5 block">
+                  {editingAddon.isJersey
+                    ? "Varian ukuran ini akan otomatis muncul pada form pilihan jersey pemesan/peserta."
+                    : "Pilihan ukuran/varian yang dapat dipilih peserta saat memesan tiket di aplikasi mobile."}
+                </span>
+              </div>
+
+              {/* Automatic Suggest Toggle in Modal */}
+              <div className="p-3 bg-amber-50/80 border border-amber-200 rounded-xl flex items-center justify-between gap-3">
+                <div>
+                  <span className="font-extrabold text-slate-900 block text-xs flex items-center gap-1.5">
+                    <Zap className="w-3.5 h-3.5 text-amber-600 fill-amber-500" />
+                    <span>Automatic Suggest (Rekomendasi Otomatis)</span>
+                  </span>
+                  <span className="text-[10px] text-slate-500 block mt-0.5">
+                    Layanan ini otomatis disorot dan direkomendasikan pada alur pemesanan tiket Consumer View.
+                  </span>
+                </div>
+                <button
+                  type="button"
+                  onClick={() => setEditFormData(prev => ({ ...prev, automaticSuggest: !prev.automaticSuggest }))}
+                  className={`px-3 py-1.5 rounded-xl font-extrabold text-xs transition-all flex items-center gap-1 shrink-0 ${
+                    editFormData.automaticSuggest
+                      ? 'bg-amber-400 hover:bg-amber-500 text-slate-950 ring-2 ring-amber-300/80 shadow-xs'
+                      : 'bg-slate-200 hover:bg-slate-300 text-slate-600'
+                  }`}
+                >
+                  <Zap className={`w-3 h-3 ${editFormData.automaticSuggest ? 'fill-slate-950 text-slate-950' : 'text-slate-400'}`} />
+                  <span>{editFormData.automaticSuggest ? 'AKTIF' : 'NONAKTIF'}</span>
+                </button>
+              </div>
 
               <div>
                 <label className="font-bold text-slate-700 block mb-1">Deskripsi Layanan</label>
