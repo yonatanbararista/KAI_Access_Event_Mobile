@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useState, useMemo, useEffect } from 'react';
-import { MOCK_EVENTS, USER_PROFILE, MOCK_ADDONS, INITIAL_TICKETS_HISTORY } from '../data/mockData';
+import { MOCK_EVENTS, USER_PROFILE, MOCK_ADDONS, INITIAL_TICKETS_HISTORY, isSportOrRunningEvent } from '../data/mockData';
 
 const BookingContext = createContext(null);
 
@@ -104,6 +104,11 @@ export const BookingProvider = ({ children }) => {
            ticketName.includes('festival') ||
            selectedTicket?.id === 'tkt-fest';
   }, [selectedTicket]);
+
+  // Running/Sport Event check
+  const isSportOrRunning = useMemo(() => {
+    return isSportOrRunningEvent(selectedEvent);
+  }, [selectedEvent]);
 
   // Seat Selection State (kept for legacy references)
   const [selectedSeats, setSelectedSeats] = useState([]);
@@ -326,6 +331,7 @@ export const BookingProvider = ({ children }) => {
       city: selectedEvent.city,
       passengerName: passengers[0]?.name || USER_PROFILE.name,
       allPassengers: passengers,
+      isSportOrRunning,
       ticketType: purchasedTiersList,
       seatNumber: 'Numbered Seating (Dikirimkan H-3 via WhatsApp & Email)',
       quantity: Math.max(1, ticketQuantity),
@@ -395,6 +401,7 @@ export const BookingProvider = ({ children }) => {
         decrementTier,
         ticketQuantity,
         isStandingTicket,
+        isSportOrRunning,
         USER_PROFILE,
         useProfileData,
         setUseProfileData,

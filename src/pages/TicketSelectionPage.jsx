@@ -13,6 +13,7 @@ export const TicketSelectionPage = () => {
     incrementTier,
     decrementTier,
     ticketQuantity,
+    isSportOrRunning,
     setCurrentStep,
     calculations
   } = useBooking();
@@ -155,7 +156,9 @@ export const TicketSelectionPage = () => {
         <div className="bg-amber-50/80 rounded-xl p-3 border border-amber-200 text-xs text-amber-900 flex items-start gap-2">
           <AlertCircle size={15} className="text-amber-600 shrink-0 mt-0.5" />
           <span>
-            Setiap pemilik tiket wajib mengisi data identitas diri (KTP/Paspor) serta ukuran jersey resmi pada halaman berikutnya.
+            {isSportOrRunning
+              ? 'Setiap pemilik tiket wajib mengisi data identitas diri (KTP/Paspor) serta ukuran jersey resmi pada halaman berikutnya.'
+              : 'Setiap pemilik tiket wajib mengisi data identitas diri (KTP/Paspor/SIM) pada halaman berikutnya.'}
           </span>
         </div>
       </div>

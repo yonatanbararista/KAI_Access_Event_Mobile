@@ -28,6 +28,21 @@ export const EVENT_MONTHS = [
   "April 2027",
 ];
 
+export const isSportOrRunningEvent = (event) => {
+  if (!event) return false;
+  const cat = (event.category || '').toLowerCase();
+  const title = (event.title || '').toLowerCase();
+  return (
+    cat.includes('olahraga') ||
+    cat.includes('sport') ||
+    cat.includes('running') ||
+    title.includes('run') ||
+    title.includes('marathon') ||
+    title.includes('lari') ||
+    Boolean(event.jerseyInfo)
+  );
+};
+
 export const MOCK_EVENTS = [
   {
     id: "evt-heritage-run",

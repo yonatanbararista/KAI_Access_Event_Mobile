@@ -18,9 +18,11 @@ import {
 import { useBooking } from '../context/BookingContext';
 
 export const TicketConfirmationPage = () => {
-  const { latestBooking, setCurrentStep, setActiveBottomNav } = useBooking();
+  const { latestBooking, setCurrentStep, setActiveBottomNav, isSportOrRunning } = useBooking();
 
   if (!latestBooking) return null;
+
+  const isSportEvent = latestBooking.isSportOrRunning ?? isSportOrRunning;
 
   const formatIDR = (num) => `IDR ${Number(num || 0).toLocaleString('id-ID')}`;
 
@@ -143,14 +145,16 @@ export const TicketConfirmationPage = () => {
             {latestBooking.allPassengers && latestBooking.allPassengers.length > 0 && (
               <div className="pt-2 border-t border-slate-200/70 space-y-1">
                 <span className="text-[10px] text-slate-400 font-bold block uppercase">
-                  Daftar Peserta & Ukuran Jersey:
+                  {isSportEvent ? 'Daftar Peserta & Ukuran Jersey:' : 'Daftar Penumpang:'}
                 </span>
                 {latestBooking.allPassengers.map((p, idx) => (
                   <div key={idx} className="flex items-center justify-between text-[11px] text-slate-700 bg-white p-1.5 rounded-lg border border-slate-200">
-                    <span className="font-semibold">{idx + 1}. {p.name || `Peserta ${idx + 1}`} ({p.tierName || 'Tiket'})</span>
-                    <span className="font-bold text-kai-blue bg-blue-50 px-2 py-0.5 rounded">
-                      Jersey: {p.jerseySize || 'M'}
-                    </span>
+                    <span className="font-semibold">{idx + 1}. {p.name || (isSportEvent ? `Peserta ${idx + 1}` : `Penumpang ${idx + 1}`)} ({p.tierName || 'Tiket'})</span>
+                    {isSportEvent && (
+                      <span className="font-bold text-kai-blue bg-blue-50 px-2 py-0.5 rounded">
+                        Jersey: {p.jerseySize || 'M'}
+                      </span>
+                    )}
                   </div>
                 ))}
               </div>

@@ -9,6 +9,7 @@ export const PassengerFormPage = () => {
     selectedEvent,
     selectedTicket,
     isStandingTicket,
+    isSportOrRunning,
     ticketQuantity,
     useProfileData,
     setUseProfileData,
@@ -158,9 +159,9 @@ export const PassengerFormPage = () => {
         <div className="space-y-3">
           <div className="flex items-center justify-between">
             <h2 className="font-bold text-xs text-slate-900 uppercase tracking-wider">
-              Daftar Penumpang ({ticketQuantity} Orang)
+              {isSportOrRunning ? 'Daftar Peserta' : 'Daftar Penumpang'} ({ticketQuantity} Orang)
             </h2>
-            <span className="text-[11px] text-slate-400">Sesuai KTP/Paspor</span>
+            <span className="text-[11px] text-slate-400">Sesuai KTP/Paspor/SIM</span>
           </div>
 
           {passengers.map((passenger, index) => (
@@ -173,7 +174,7 @@ export const PassengerFormPage = () => {
                   <span className="w-5 h-5 rounded-full bg-blue-100 text-kai-blue flex items-center justify-center text-[11px]">
                     {index + 1}
                   </span>
-                  <span>Penumpang {index + 1}</span>
+                  <span>{isSportOrRunning ? `Peserta ${index + 1}` : `Penumpang ${index + 1}`}</span>
                   {passenger.tierName && (
                     <span className="text-[10px] bg-blue-50 text-kai-blue font-bold px-2 py-0.5 rounded-md border border-blue-200 ml-1">
                       {passenger.tierName}
@@ -230,45 +231,47 @@ export const PassengerFormPage = () => {
                 </div>
               </div>
 
-              {/* JERSEY SIZE SELECTOR FOR EACH PASSENGER */}
-              <div className="pt-2.5 border-t border-slate-100 space-y-2">
-                <div className="flex items-center justify-between">
-                  <label className="text-[11px] font-bold text-slate-800 flex items-center gap-1">
-                    <span>Ukuran Jersey Resmi (Running T-Shirt)</span>
-                    <span className="text-red-500">*</span>
-                  </label>
-                  <span className="text-[10px] text-kai-blue font-bold bg-blue-50 px-2 py-0.5 rounded-full border border-blue-100">
-                    Bahan Micro Dry-Fit
-                  </span>
-                </div>
+              {/* JERSEY SIZE SELECTOR FOR EACH PASSENGER (ONLY FOR RUNNING / SPORT EVENTS) */}
+              {isSportOrRunning && (
+                <div className="pt-2.5 border-t border-slate-100 space-y-2">
+                  <div className="flex items-center justify-between">
+                    <label className="text-[11px] font-bold text-slate-800 flex items-center gap-1">
+                      <span>Ukuran Jersey Resmi (Running T-Shirt)</span>
+                      <span className="text-red-500">*</span>
+                    </label>
+                    <span className="text-[10px] text-kai-blue font-bold bg-blue-50 px-2 py-0.5 rounded-full border border-blue-100">
+                      Bahan Micro Dry-Fit
+                    </span>
+                  </div>
 
-                <div className="grid grid-cols-5 gap-1.5">
-                  {['S', 'M', 'L', 'XL', 'XXL'].map((size) => {
-                    const isSelected = (passengers[index]?.jerseySize || 'M') === size;
-                    return (
-                      <button
-                        key={size}
-                        type="button"
-                        onClick={() => updatePassenger(index, 'jerseySize', size)}
-                        className={`py-1.5 rounded-xl text-xs font-black transition-all flex flex-col items-center justify-center border tap-active ${
-                          isSelected
-                            ? 'bg-kai-blue text-white border-kai-blue shadow-xs ring-2 ring-kai-blue/20'
-                            : 'bg-slate-50 text-slate-700 border-slate-200 hover:bg-slate-100'
-                        }`}
-                      >
-                        <span>{size}</span>
-                      </button>
-                    );
-                  })}
-                </div>
+                  <div className="grid grid-cols-5 gap-1.5">
+                    {['S', 'M', 'L', 'XL', 'XXL'].map((size) => {
+                      const isSelected = (passengers[index]?.jerseySize || 'M') === size;
+                      return (
+                        <button
+                          key={size}
+                          type="button"
+                          onClick={() => updatePassenger(index, 'jerseySize', size)}
+                          className={`py-1.5 rounded-xl text-xs font-black transition-all flex flex-col items-center justify-center border tap-active ${
+                            isSelected
+                              ? 'bg-kai-blue text-white border-kai-blue shadow-xs ring-2 ring-kai-blue/20'
+                              : 'bg-slate-50 text-slate-700 border-slate-200 hover:bg-slate-100'
+                          }`}
+                        >
+                          <span>{size}</span>
+                        </button>
+                      );
+                    })}
+                  </div>
 
-                <div className="text-[10px] text-slate-500 flex items-center justify-between pt-0.5">
-                  <span>Lebar Dada: S(48cm) M(50cm) L(52cm) XL(54cm) XXL(56cm)</span>
-                  <span className="font-extrabold text-kai-blue">
-                    Ukuran: {passengers[index]?.jerseySize || 'M'}
-                  </span>
+                  <div className="text-[10px] text-slate-500 flex items-center justify-between pt-0.5">
+                    <span>Lebar Dada: S(48cm) M(50cm) L(52cm) XL(54cm) XXL(56cm)</span>
+                    <span className="font-extrabold text-kai-blue">
+                      Ukuran: {passengers[index]?.jerseySize || 'M'}
+                    </span>
+                  </div>
                 </div>
-              </div>
+              )}
             </div>
           ))}
         </div>

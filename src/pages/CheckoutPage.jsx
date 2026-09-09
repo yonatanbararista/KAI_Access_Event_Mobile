@@ -22,6 +22,7 @@ export const CheckoutPage = () => {
     selectedEvent,
     selectedTicket,
     isStandingTicket,
+    isSportOrRunning,
     ticketQuantity,
     passengers,
     selectedSeats,
@@ -91,7 +92,7 @@ export const CheckoutPage = () => {
         <div className="bg-white rounded-2xl p-3.5 border border-slate-200 shadow-2xs space-y-2">
           <div className="flex items-center justify-between pb-1.5 border-b border-slate-100">
             <h3 className="font-bold text-xs text-slate-900 uppercase tracking-wider">
-              Data Peserta & Jersey ({passengers.length} Orang)
+              {isSportOrRunning ? 'Data Peserta & Jersey' : 'Data Penumpang'} ({passengers.length} Orang)
             </h3>
             <span className="text-[10px] text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded-full font-bold">
               Tervalidasi
@@ -101,14 +102,16 @@ export const CheckoutPage = () => {
             {passengers.map((p, i) => (
               <div key={i} className="flex items-center justify-between text-xs py-1 px-2 rounded-lg bg-slate-50 border border-slate-100">
                 <div>
-                  <span className="font-bold text-slate-800">{p.name || `Penumpang ${i + 1}`}</span>
+                  <span className="font-bold text-slate-800">{p.name || (isSportOrRunning ? `Peserta ${i + 1}` : `Penumpang ${i + 1}`)}</span>
                   <span className="text-[10px] text-slate-400 block">{p.tierName || 'Tiket'}</span>
                 </div>
-                <div className="text-right">
-                  <span className="text-[10px] font-bold bg-blue-100 text-kai-blue px-2 py-0.5 rounded-md">
-                    Jersey: {p.jerseySize || 'M'}
-                  </span>
-                </div>
+                {isSportOrRunning && (
+                  <div className="text-right">
+                    <span className="text-[10px] font-bold bg-blue-100 text-kai-blue px-2 py-0.5 rounded-md">
+                      Jersey: {p.jerseySize || 'M'}
+                    </span>
+                  </div>
+                )}
               </div>
             ))}
           </div>
