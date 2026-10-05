@@ -513,92 +513,54 @@ export const EventCalendarPage = () => {
               )}
             </div>
           ) : (
-            filteredEvents.map((evt) => (
-              <div
-                key={evt.id}
-                onClick={() => selectEvent(evt)}
-                className="bg-white rounded-3xl overflow-hidden border border-slate-200 shadow-sm hover:shadow-md transition-all cursor-pointer group"
-              >
-                {/* Event Image Banner */}
-                <div className="h-36 w-full relative overflow-hidden bg-slate-100">
-                  <img
-                    src={evt.banner || evt.heroImage}
-                    alt={evt.title}
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                    loading="lazy"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
-                  
-                  {/* Category Pill */}
-                  <span className="absolute top-3 left-3 bg-white/90 backdrop-blur-md text-kai-blue font-extrabold text-[10px] px-2.5 py-1 rounded-full shadow-xs">
-                    {evt.category}
-                  </span>
+            <div className="space-y-2">
+              {filteredEvents.map((evt) => (
+                <div
+                  key={evt.id}
+                  onClick={() => selectEvent(evt)}
+                  className="bg-white rounded-2xl p-3.5 border border-slate-200 hover:border-kai-blue/50 shadow-2xs hover:shadow-xs transition-all cursor-pointer tap-active flex items-center justify-between gap-3 group"
+                >
+                  <div className="min-w-0 flex-1">
+                    {/* Category pill & city */}
+                    <div className="flex items-center gap-2 mb-1">
+                      <span className="text-[10px] font-bold text-kai-blue bg-blue-50 px-2 py-0.5 rounded-md border border-blue-100/80">
+                        {evt.category}
+                      </span>
+                      {evt.city && (
+                        <span className="text-[11px] text-slate-500 flex items-center gap-1">
+                          <MapPin size={11} className="text-kai-orange shrink-0" />
+                          <span className="truncate">{evt.city}</span>
+                        </span>
+                      )}
+                    </div>
 
-                  {/* Sync Source Badge */}
-                  <span className="absolute top-3 right-3 bg-slate-900/80 backdrop-blur-md text-emerald-300 font-bold text-[9px] px-2 py-0.5 rounded-full border border-emerald-400/30 flex items-center gap-1">
-                    <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
-                    <span>Google Sheet</span>
-                  </span>
-
-                  {/* Title overlay */}
-                  <div className="absolute bottom-2.5 left-3 right-3 text-white">
-                    <h4 className="font-extrabold text-sm leading-snug line-clamp-1">
+                    {/* Nama Event / Acara */}
+                    <h4 className="font-extrabold text-sm text-slate-900 group-hover:text-kai-blue transition-colors leading-snug">
                       {evt.title}
                     </h4>
-                    <span className="text-[10px] text-white/80 line-clamp-1">
-                      {evt.organizer}
-                    </span>
-                  </div>
-                </div>
 
-                {/* Event Details Content */}
-                <div className="p-3.5 space-y-3">
-                  <div className="grid grid-cols-2 gap-2 text-xs text-slate-600">
-                    <div className="flex items-center gap-1.5">
-                      <CalendarIcon size={14} className="text-kai-blue shrink-0" />
-                      <span className="font-semibold text-slate-800 text-[11px] truncate">
+                    {/* Tanggal & Info */}
+                    <div className="flex items-center gap-3 text-[11px] text-slate-500 mt-1">
+                      <span className="flex items-center gap-1 font-medium text-slate-700">
+                        <CalendarIcon size={12} className="text-kai-blue shrink-0" />
                         {evt.date}
                       </span>
-                    </div>
-
-                    <div className="flex items-center gap-1.5">
-                      <Clock size={14} className="text-slate-400 shrink-0" />
-                      <span className="text-[11px] text-slate-600 truncate">
-                        {evt.time || '08:00 WIB'}
-                      </span>
-                    </div>
-
-                    <div className="col-span-2 flex items-center gap-1.5">
-                      <MapPin size={14} className="text-kai-orange shrink-0" />
-                      <span className="text-[11px] text-slate-600 truncate">
-                        {evt.venue}, {evt.city}
-                      </span>
+                      {evt.startingPrice > 0 && (
+                        <span className="text-slate-400">
+                          • Mulai {formatIDR(evt.startingPrice)}
+                        </span>
+                      )}
                     </div>
                   </div>
 
-                  {/* Price & CTA Action */}
-                  <div className="pt-2.5 border-t border-slate-100 flex items-center justify-between">
-                    <div>
-                      <div className="text-[10px] text-slate-400 font-medium">Mulai dari</div>
-                      <div className="text-sm font-black text-kai-blue">
-                        {formatIDR(evt.startingPrice)}
-                      </div>
-                    </div>
-
-                    <button
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        selectEvent(evt);
-                      }}
-                      className="bg-gradient-to-r from-kai-blue to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-bold text-xs px-4 py-2 rounded-full shadow-md flex items-center gap-1.5 tap-active transition-all group-hover:scale-105"
-                    >
-                      <Ticket size={13} className="text-amber-300" />
-                      <span>Beli Tiket & Kereta</span>
-                    </button>
+                  {/* Right Action */}
+                  <div className="shrink-0 flex items-center gap-1 text-kai-blue font-bold text-xs bg-blue-50/60 group-hover:bg-kai-blue group-hover:text-white px-2.5 py-1.5 rounded-xl transition-all">
+                    <span>Pilih</span>
+                    <ChevronRight size={14} />
                   </div>
                 </div>
-              </div>
-            ))
+              ))}
+            </div>
           )}
         </div>
       </div>
