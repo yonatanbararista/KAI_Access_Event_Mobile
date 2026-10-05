@@ -16,7 +16,8 @@ import {
   LayoutGrid, 
   ExternalLink,
   Flame,
-  Award
+  Award,
+  Calendar
 } from 'lucide-react';
 import { IosStatusBar } from '../components/layout/IosStatusBar';
 import { BottomNavigation } from '../components/layout/BottomNavigation';
@@ -239,47 +240,61 @@ export const HomePage = () => {
         </div>
       </div>
 
-      {/* SECONDARY SERVICES (SOFT BLUE ROUNDED ICONS) */}
+      {/* SECONDARY SERVICES (SOFT BLUE ROUNDED ICONS + EVENT CALENDAR) */}
       <div className="px-4 mt-6">
-        <div className="grid grid-cols-4 gap-2 text-center">
+        <div className="grid grid-cols-5 gap-1.5 text-center">
+          {/* NEW: Event Calendar (By Angel) */}
+          <button
+            onClick={() => setCurrentStep('calendar')}
+            className="flex flex-col items-center gap-1.5 tap-active group relative"
+          >
+            <div className="w-12 h-12 rounded-2xl bg-gradient-to-tr from-kai-blue to-indigo-600 flex items-center justify-center text-white shadow-md shadow-blue-500/20 group-hover:scale-105 transition-all">
+              <Calendar size={22} strokeWidth={2.2} />
+            </div>
+            <span className="text-[11px] font-bold text-kai-blue leading-tight">Kalender Event</span>
+            <span className="absolute -top-1.5 -right-1 bg-kai-orange text-white text-[8px] font-black px-1.5 py-0.2 rounded-full shadow-xs">
+              NEW
+            </span>
+          </button>
+
           <button
             onClick={() => showPlaceholderToast('Space By KAI')}
-            className="flex flex-col items-center gap-2 tap-active"
+            className="flex flex-col items-center gap-1.5 tap-active"
           >
-            <div className="w-12 h-12 rounded-full bg-[#EFF6FF] flex items-center justify-center text-[#1E40AF] hover:bg-blue-100 transition-colors">
+            <div className="w-12 h-12 rounded-2xl bg-[#EFF6FF] flex items-center justify-center text-[#1E40AF] hover:bg-blue-100 transition-colors">
               <Building2 size={21} strokeWidth={2.2} />
             </div>
-            <span className="text-xs font-medium text-slate-700 leading-tight">Space By KAI</span>
+            <span className="text-[11px] font-medium text-slate-700 leading-tight">Space KAI</span>
           </button>
 
           <button
             onClick={() => showPlaceholderToast('Grab Transport')}
-            className="flex flex-col items-center gap-2 tap-active"
+            className="flex flex-col items-center gap-1.5 tap-active"
           >
-            <div className="w-12 h-12 rounded-full bg-[#EFF6FF] flex items-center justify-center text-[#1E40AF] hover:bg-blue-100 transition-colors">
+            <div className="w-12 h-12 rounded-2xl bg-[#EFF6FF] flex items-center justify-center text-[#1E40AF] hover:bg-blue-100 transition-colors">
               <Car size={21} strokeWidth={2.2} />
             </div>
-            <span className="text-xs font-medium text-slate-700">Grab</span>
+            <span className="text-[11px] font-medium text-slate-700">Grab</span>
           </button>
 
           <button
             onClick={() => showPlaceholderToast('Kartu Multi Trip (KMT)')}
-            className="flex flex-col items-center gap-2 tap-active"
+            className="flex flex-col items-center gap-1.5 tap-active"
           >
-            <div className="w-12 h-12 rounded-full bg-[#EFF6FF] flex items-center justify-center text-[#1E40AF] hover:bg-blue-100 transition-colors">
+            <div className="w-12 h-12 rounded-2xl bg-[#EFF6FF] flex items-center justify-center text-[#1E40AF] hover:bg-blue-100 transition-colors">
               <CreditCard size={21} strokeWidth={2.2} />
             </div>
-            <span className="text-xs font-medium text-slate-700">KMT</span>
+            <span className="text-[11px] font-medium text-slate-700">KMT</span>
           </button>
 
           <button
             onClick={() => showPlaceholderToast('Layanan Lainnya')}
-            className="flex flex-col items-center gap-2 tap-active"
+            className="flex flex-col items-center gap-1.5 tap-active"
           >
-            <div className="w-12 h-12 rounded-full bg-[#EFF6FF] flex items-center justify-center text-[#1E40AF] hover:bg-blue-100 transition-colors">
+            <div className="w-12 h-12 rounded-2xl bg-[#EFF6FF] flex items-center justify-center text-[#1E40AF] hover:bg-blue-100 transition-colors">
               <LayoutGrid size={21} strokeWidth={2.2} />
             </div>
-            <span className="text-xs font-medium text-slate-700">Show more</span>
+            <span className="text-[11px] font-medium text-slate-700">Lainnya</span>
           </button>
         </div>
       </div>
@@ -338,6 +353,35 @@ export const HomePage = () => {
                 <div className="text-[6px] text-center opacity-70">SEAT A12</div>
               </div>
             </div>
+          </div>
+        </div>
+      </div>
+
+      {/* BANNER 0.1: CALENDAR OF EVENTS PROMO BANNER (BY ANGEL) */}
+      <div className="px-4 mt-3.5">
+        <div
+          onClick={() => setCurrentStep('calendar')}
+          className="relative rounded-2xl overflow-hidden bg-gradient-to-r from-blue-900 via-indigo-900 to-slate-900 p-3.5 text-white shadow-md cursor-pointer tap-active border border-sky-400/30 flex items-center justify-between group"
+        >
+          <div className="flex items-center gap-3">
+            <div className="w-11 h-11 rounded-2xl bg-white/15 backdrop-blur-md flex items-center justify-center text-amber-300 shrink-0 border border-white/20 group-hover:scale-105 transition-transform shadow-xs">
+              <Calendar size={22} strokeWidth={2.2} />
+            </div>
+            <div>
+              <div className="flex items-center gap-1.5">
+                <span className="font-extrabold text-xs tracking-tight">Calendar of Events</span>
+                <span className="bg-amber-400 text-slate-950 text-[9px] font-black px-1.5 py-0.2 rounded-full">
+                  by Angel
+                </span>
+              </div>
+              <p className="text-[11px] text-blue-100 leading-snug mt-0.5">
+                Jadwal lengkap festival musik, lari & expo terhubung Google Sheet.
+              </p>
+            </div>
+          </div>
+
+          <div className="shrink-0 flex items-center justify-center w-7 h-7 rounded-full bg-white/20 text-white group-hover:bg-white group-hover:text-kai-blue transition-colors">
+            <ChevronRight size={16} />
           </div>
         </div>
       </div>

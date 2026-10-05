@@ -11,6 +11,7 @@ import { AddOnsPage } from './pages/AddOnsPage';
 import { CheckoutPage } from './pages/CheckoutPage';
 import { TicketConfirmationPage } from './pages/TicketConfirmationPage';
 import { DashboardPage } from './pages/DashboardPage';
+import { EventCalendarPage } from './pages/EventCalendarPage';
 
 // Import B2B Partner Portal
 import { PartnerPortalApp } from '../partner-portal/src/PartnerPortalApp';
@@ -23,6 +24,8 @@ const ScreenRouter = () => {
   switch (currentStep) {
     case 'home':
       return <HomePage />;
+    case 'calendar':
+      return <EventCalendarPage />;
     case 'catalog':
       return <EventCatalogPage />;
     case 'detail':
