@@ -9,83 +9,11 @@ const CACHE_STORAGE_KEY = 'kai_event_calendar_cache_v1';
 const CONFIG_STORAGE_KEY = 'kai_event_calendar_config_v1';
 
 // Pre-enriched mock events with ISO date representations for accurate calendar plotting
-export const EXTENDED_CALENDAR_EVENTS = [
-  ...MOCK_EVENTS.map(evt => {
-    let iso = '2026-08-15';
-    if (evt.id === 'evt-heritage-run') iso = '2027-04-17';
-    if (evt.id === 'evt-02') iso = '2026-08-15';
-    if (evt.id === 'evt-03') iso = '2026-09-12';
-    if (evt.id === 'evt-04') iso = '2026-10-02';
-    return {
-      ...evt,
-      isoDate: iso,
-      source: 'Google Sheet (Synced)'
-    };
-  }),
-  {
-    id: 'sheet-evt-05',
-    title: 'Jogja International Heritage Walk 2026',
-    category: 'Olahraga',
-    month: 'November 2026',
-    date: 'Sabtu, 21 November 2026',
-    isoDate: '2026-11-21',
-    time: '06:30 WIB',
-    venue: 'Candi Prambanan - Malioboro',
-    city: 'Yogyakarta',
-    startingPrice: 120000,
-    banner: 'https://images.unsplash.com/photo-1596402184320-417e7178b2cd?q=80&w=800&auto=format&fit=crop',
-    heroImage: 'https://images.unsplash.com/photo-1596402184320-417e7178b2cd?q=80&w=1200&auto=format&fit=crop',
-    organizer: 'Jogja Tourism Board x KAI Daop 6',
-    description: 'Jalan sehat internasional melintasi keindahan Candi Prambanan dan peninggalan Mataram Kuno dengan bundling KA Taksaka.',
-    source: 'Google Sheet (Synced)',
-    tickets: [
-      { id: 'tkt-jiw-1', name: 'Standard Walk 10K', price: 120000, quota: 80, perks: ['BIB', 'Official Medali', 'Snack Box'] },
-      { id: 'tkt-jiw-2', name: 'Family Walk 5K', price: 90000, quota: 150, perks: ['BIB', 'Snack Box'] }
-    ]
-  },
-  {
-    id: 'sheet-evt-06',
-    title: 'Solo Keroncong Wave Festival 2026',
-    category: 'Konser Musik',
-    month: 'Juli 2026',
-    date: 'Jumat, 24 Juli 2026',
-    isoDate: '2026-07-24',
-    time: '19:00 WIB',
-    venue: 'Benteng Vastenburg',
-    city: 'Surakarta (Solo)',
-    startingPrice: 85000,
-    banner: 'https://images.unsplash.com/photo-1465847899084-d164df4dedc6?q=80&w=800&auto=format&fit=crop',
-    heroImage: 'https://images.unsplash.com/photo-1465847899084-d164df4dedc6?q=80&w=1200&auto=format&fit=crop',
-    organizer: 'Dinas Kebudayaan Solo x KAI Wisata',
-    description: 'Festival musik keroncong modern di pelataran bersejarah Benteng Vastenburg Solo, dekat Stasiun Solo Balapan.',
-    source: 'Google Sheet (Synced)',
-    tickets: [
-      { id: 'tkt-skf-1', name: 'VIP Festival Seat', price: 175000, quota: 50, perks: ['Kursi bernomor terdepan', 'Voucher Kuliner'] },
-      { id: 'tkt-skf-2', name: 'Regular Entry', price: 85000, quota: 200, perks: ['Akses area panggung'] }
-    ]
-  },
-  {
-    id: 'sheet-evt-07',
-    title: 'Surabaya Heritage Coffee & Food Expo',
-    category: 'Festival Budaya',
-    month: 'Oktober 2026',
-    date: 'Minggu, 18 Oktober 2026',
-    isoDate: '2026-10-18',
-    time: '10:00 - 21:00 WIB',
-    venue: 'Balai Pemuda Alun-Alun Surabaya',
-    city: 'Surabaya',
-    startingPrice: 50000,
-    banner: 'https://images.unsplash.com/photo-1442512595331-e89e73853f31?q=80&w=800&auto=format&fit=crop',
-    heroImage: 'https://images.unsplash.com/photo-1442512595331-e89e73853f31?q=80&w=1200&auto=format&fit=crop',
-    organizer: 'Surabaya Tourism x KAI Daop 8',
-    description: 'Pameran 50+ racikan kopi khas Nusantara dan kuliner legendaris Jawa Timur di jantung kota Surabaya.',
-    source: 'Google Sheet (Synced)',
-    tickets: [
-      { id: 'tkt-scf-1', name: 'Pass All Access + Cupping Workshop', price: 95000, quota: 60, perks: ['Workshop Cupping', 'Free Sample Kopi'] },
-      { id: 'tkt-scf-2', name: 'Daily Entry', price: 50000, quota: 300, perks: ['Voucher belanja kopi 20K'] }
-    ]
-  }
-];
+export const EXTENDED_CALENDAR_EVENTS = MOCK_EVENTS.map(evt => ({
+  ...evt,
+  isoDate: evt.isoDate || '2026-08-15',
+  source: 'Google Sheet (Synced)'
+}));
 
 export const getSavedEndpointUrl = () => {
   try {

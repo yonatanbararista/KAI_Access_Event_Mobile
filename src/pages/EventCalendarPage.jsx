@@ -117,9 +117,10 @@ export const EventCalendarPage = () => {
   // Quick jump presets
   const quickMonths = [
     { label: 'Apr 2027 (Heritage Run)', year: 2027, month: 3, day: 17 },
-    { label: 'Agu 2026 (Expo)', year: 2026, month: 7, day: 15 },
-    { label: 'Sep 2026 (Konser)', year: 2026, month: 8, day: 12 },
-    { label: 'Okt 2026 (Kuliner)', year: 2026, month: 9, day: 2 },
+    { label: 'Jul 2026 (Jazz & Keroncong)', year: 2026, month: 6, day: 24 },
+    { label: 'Agu 2026 (Expo, WTF & Dieng)', year: 2026, month: 7, day: 15 },
+    { label: 'Sep 2026 (Konser & Soundrenaline)', year: 2026, month: 8, day: 12 },
+    { label: 'Okt 2026 (Kuliner, Expo & Kopi)', year: 2026, month: 9, day: 2 },
     { label: 'Nov 2026 (Jogja Walk)', year: 2026, month: 10, day: 21 },
   ];
 

@@ -140,6 +140,7 @@ export const MOCK_EVENTS = [
     category: "Konser Musik",
     month: "Juli 2026",
     date: "24 - 26 Juli 2026",
+    isoDate: "2026-07-24",
     time: "15:00 - 23:30 WIB",
     venue: "Plataran Candi Prambanan",
     city: "Yogyakarta",
@@ -302,6 +303,183 @@ export const MOCK_EVENTS = [
         quota: 95,
         perks: ["Akses 1 hari", "Kupon minuman Lokocafe"]
       }
+    ]
+  },
+  {
+    id: "evt-solo-keroncong",
+    title: "Solo Keroncong Wave Festival 2026",
+    category: "Konser Musik",
+    month: "Juli 2026",
+    date: "Jumat, 24 Juli 2026",
+    isoDate: "2026-07-24",
+    time: "19:00 - 23:00 WIB",
+    venue: "Benteng Vastenburg",
+    city: "Surakarta (Solo)",
+    startingPrice: 85000,
+    banner: "https://images.unsplash.com/photo-1465847899084-d164df4dedc6?q=80&w=800&auto=format&fit=crop",
+    heroImage: "https://images.unsplash.com/photo-1465847899084-d164df4dedc6?q=80&w=1200&auto=format&fit=crop",
+    organizer: "Dinas Kebudayaan Solo x KAI Wisata",
+    description: "Festival musik keroncong kontemporer di pelataran bersejarah Benteng Vastenburg Solo. Berjarak hanya 10 menit dari Stasiun Solo Balapan.",
+    highlights: [
+      "Penampilan 15 orkes keroncong legendaris dan indie modern",
+      "Pameran busana kebaya dan batik klasik Mangkunegaran",
+      "Koneksi KA Commuter Jogja-Solo beroperasi hingga larut malam"
+    ],
+    tickets: [
+      { id: "tkt-skf-1", name: "VIP Festival Seat", price: 175000, quota: 50, perks: ["Kursi bernomor terdepan", "Voucher Kuliner Solo Rp 25.000"] },
+      { id: "tkt-skf-2", name: "Regular Entry", price: 85000, quota: 200, perks: ["Akses area panggung dan bazaar kuliner"] }
+    ]
+  },
+  {
+    id: "evt-we-the-fest",
+    title: "We The Fest (WTF) 2026",
+    category: "Konser Musik",
+    month: "Agustus 2026",
+    date: "14 - 16 Agustus 2026",
+    isoDate: "2026-08-14",
+    time: "14:00 - 00:00 WIB",
+    venue: "GBK Sports Complex",
+    city: "Jakarta Pusat",
+    startingPrice: 420000,
+    banner: "https://images.unsplash.com/photo-1470225620780-dba8ba36b745?q=80&w=800&auto=format&fit=crop",
+    heroImage: "https://images.unsplash.com/photo-1470225620780-dba8ba36b745?q=80&w=1200&auto=format&fit=crop",
+    organizer: "Ismaya Live Indonesia x KAI",
+    description: "Festival musik, seni, mode, dan kuliner musim panas terbesar di Indonesia. Akses terhubung mudah via Stasiun Gambir & Stasiun Palmerah.",
+    highlights: [
+      "Headliner internasional dan festival indie ternama",
+      "Zona instalasi seni interaktif & cinema club",
+      "Bundling KA Argo Parahyangan & Whoosh diskon 15%"
+    ],
+    tickets: [
+      { id: "tkt-wtf-vip", name: "3-Day Pass VVIP", price: 1650000, quota: 40, perks: ["Akses VVIP viewing deck", "Private bar & air-conditioned lounge"] },
+      { id: "tkt-wtf-ga", name: "Daily General Admission", price: 420000, quota: 150, perks: ["Akses seluruh area stage festival"] }
+    ]
+  },
+  {
+    id: "evt-dieng-culture",
+    title: "Dieng Culture Festival XVII",
+    category: "Festival Budaya",
+    month: "Agustus 2026",
+    date: "28 - 30 Agustus 2026",
+    isoDate: "2026-08-28",
+    time: "07:00 - 23:00 WIB",
+    venue: "Kompleks Candi Arjuna",
+    city: "Banjarnegara / Wonosobo",
+    startingPrice: 200000,
+    banner: "https://images.unsplash.com/photo-1533174072545-7a4b6ad7a6c3?q=80&w=800&auto=format&fit=crop",
+    heroImage: "https://images.unsplash.com/photo-1533174072545-7a4b6ad7a6c3?q=80&w=1200&auto=format&fit=crop",
+    organizer: "Pokdarwis Dieng Pandawa x KAI Daop 5",
+    description: "Ritual sakral pemotongan rambut gimbal anak Dieng, pelepasan ribuan lampion langit di atas perbukitan, serta festival musik Jazz di Atas Awan. Terkoneksi shuttle KAI dari Stasiun Purwokerto.",
+    highlights: [
+      "Upacara adat jamasan & ruwatan anak gimbal",
+      "Pelepasan 5.000 lampion langit malam Dieng",
+      "Jazz di Atas Awan berlatar Candi Arjuna bersuhu sejuk",
+      "Shuttle resmi KAI Stasiun Purwokerto - Dieng PP"
+    ],
+    tickets: [
+      { id: "tkt-dcf-all", name: "VIP All Event Access + Lampion", price: 350000, quota: 60, perks: ["Akses ruwatan rambut gimbal", "1 Lampion eksklusif", "Kain sarung & selendang adat"] },
+      { id: "tkt-dcf-pass", name: "Standard Festival Pass", price: 200000, quota: 180, perks: ["Akses area Jazz di Atas Awan & Expo UMKM"] }
+    ]
+  },
+  {
+    id: "evt-soundrenaline",
+    title: "Soundrenaline Nusantara Experience 2026",
+    category: "Konser Musik",
+    month: "September 2026",
+    date: "18 - 20 September 2026",
+    isoDate: "2026-09-18",
+    time: "15:00 - 23:00 WIB",
+    venue: "Grand City Convention & Expo",
+    city: "Surabaya",
+    startingPrice: 220000,
+    banner: "https://images.unsplash.com/photo-1459749411175-04bf5292ceea?q=80&w=800&auto=format&fit=crop",
+    heroImage: "https://images.unsplash.com/photo-1459749411175-04bf5292ceea?q=80&w=1200&auto=format&fit=crop",
+    organizer: "PT Kreasi Musik Nusantara x KAI Daop 8",
+    description: "Panggung musik rock & alternative terbesar Nusantara dengan 4 panggung spektakuler, terhubung langsung 5 menit dari Stasiun Surabaya Gubeng.",
+    highlights: [
+      "4 Multi-stage indoor & outdoor Grand City",
+      "Kolaborasi band legendaris Indonesia & Asia",
+      "Koneksi langsung KA Sancaka & KA Argo Bromo Anggrek"
+    ],
+    tickets: [
+      { id: "tkt-snd-3d", name: "3-Days Rock Pass", price: 550000, quota: 40, perks: ["Akses 3 hari penuh", "Official merchandise shirt"] },
+      { id: "tkt-snd-1d", name: "Daily Pass Entry", price: 220000, quota: 150, perks: ["Akses 1 hari seluruh stage"] }
+    ]
+  },
+  {
+    id: "evt-bandung-clothing",
+    title: "Bandung Indie Clothing Expo 2026",
+    category: "Pameran & Expo",
+    month: "Oktober 2026",
+    date: "10 - 12 Oktober 2026",
+    isoDate: "2026-10-10",
+    time: "10:00 - 22:00 WIB",
+    venue: "Sasana Budaya Ganesha (Sabuga ITB)",
+    city: "Bandung",
+    startingPrice: 45000,
+    banner: "https://images.unsplash.com/photo-1523580494863-6f3031224c94?q=80&w=800&auto=format&fit=crop",
+    heroImage: "https://images.unsplash.com/photo-1523580494863-6f3031224c94?q=80&w=1200&auto=format&fit=crop",
+    organizer: "Lian Mipro Indonesia x KAI Daop 2",
+    description: "Eksibisi 120+ clothing brand lokal terkemuka Kota Kembang dengan panggung live musik indie underground dan diskon up to 70%.",
+    highlights: [
+      "120+ brand apparel lokal terkemuka Bandung & Jakarta",
+      "Live acoustic & indie band stage setiap jam",
+      "Akses Feeder Whoosh Stasiun Bandung langsung ke Sabuga"
+    ],
+    tickets: [
+      { id: "tkt-bce-vip", name: "VIP Shopping Fast Pass", price: 95000, quota: 80, perks: ["Early entry 1 jam lebih awal", "Goodie bag limited edition"] },
+      { id: "tkt-bce-reg", name: "Daily Entry Pass", price: 45000, quota: 350, perks: ["Akses masuk 1 hari Sabuga"] }
+    ]
+  },
+  {
+    id: "evt-surabaya-coffee",
+    title: "Surabaya Heritage Coffee & Food Expo",
+    category: "Festival Budaya",
+    month: "Oktober 2026",
+    date: "Minggu, 18 Oktober 2026",
+    isoDate: "2026-10-18",
+    time: "10:00 - 21:00 WIB",
+    venue: "Balai Pemuda Alun-Alun Surabaya",
+    city: "Surabaya",
+    startingPrice: 50000,
+    banner: "https://images.unsplash.com/photo-1442512595331-e89e73853f31?q=80&w=800&auto=format&fit=crop",
+    heroImage: "https://images.unsplash.com/photo-1442512595331-e89e73853f31?q=80&w=1200&auto=format&fit=crop",
+    organizer: "Surabaya Tourism x KAI Daop 8",
+    description: "Pameran 50+ racikan kopi khas Nusantara dan kuliner legendaris Jawa Timur di jantung cagar budaya kota Surabaya.",
+    highlights: [
+      "Workshop cupping dan roasting barista bersertifikat",
+      "Bazaar kuliner legendaris Jawa Timur",
+      "Dekat Stasiun Surabaya Gubeng dan Pasar Turi"
+    ],
+    tickets: [
+      { id: "tkt-scf-1", name: "Pass All Access + Cupping Workshop", price: 95000, quota: 60, perks: ["Workshop Cupping", "Free Sample Kopi"] },
+      { id: "tkt-scf-2", name: "Daily Entry", price: 50000, quota: 300, perks: ["Voucher belanja kopi Rp 20.000"] }
+    ]
+  },
+  {
+    id: "evt-jogja-walk",
+    title: "Jogja International Heritage Walk 2026",
+    category: "Olahraga",
+    month: "November 2026",
+    date: "Sabtu, 21 November 2026",
+    isoDate: "2026-11-21",
+    time: "06:30 WIB",
+    venue: "Candi Prambanan - Malioboro",
+    city: "Yogyakarta",
+    startingPrice: 120000,
+    banner: "https://images.unsplash.com/photo-1596402184320-417e7178b2cd?q=80&w=800&auto=format&fit=crop",
+    heroImage: "https://images.unsplash.com/photo-1596402184320-417e7178b2cd?q=80&w=1200&auto=format&fit=crop",
+    organizer: "Jogja Tourism Board x KAI Daop 6",
+    description: "Jalan sehat internasional melintasi keindahan Candi Prambanan dan peninggalan Mataram Kuno dengan bundling KA Taksaka.",
+    highlights: [
+      "Rute jalan santai pemandangan pedesaan dan candi kuno",
+      "Diikuti peserta dari 20+ negara anggota IML Walking Association",
+      "Medali finisher ramah lingkungan berbahan kuningan daur ulang",
+      "Koneksi KA Commuter Line & KA Bandara YIA terintegrasi"
+    ],
+    tickets: [
+      { id: "tkt-jiw-1", name: "Standard Walk 10K", price: 120000, quota: 80, perks: ["BIB", "Official Medali", "Snack Box"] },
+      { id: "tkt-jiw-2", name: "Family Walk 5K", price: 90000, quota: 150, perks: ["BIB", "Snack Box"] }
     ]
   }
 ];
